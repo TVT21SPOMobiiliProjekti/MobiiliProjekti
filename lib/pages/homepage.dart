@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.home_rounded),
                 title: const Text('Home'),
-                onTap: () => Navigator.pushNamed(context, route.homePage),
+                onTap: () => Navigator.pop(context),
               ),
               ListTile(
                 leading: const Icon(Icons.calendar_month_rounded),

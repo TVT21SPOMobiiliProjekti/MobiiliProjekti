@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
-      initialRoute: route.homePage,
+      initialRoute: route.loginPage,
     );
   }
 }
