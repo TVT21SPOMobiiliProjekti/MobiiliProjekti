@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './menuPage.dart';
 import '../utility/router.dart' as route;
 
 class HomePage extends StatelessWidget {
@@ -53,6 +54,12 @@ class HomePage extends StatelessWidget {
                 title: const Text('Profile'),
                 onTap: () => null//Navigator.pushNamed(context, route.profilePage),
               ),
+               ListTile(
+                leading: const Icon(Icons.menu),
+                title: const Text('Menu'),
+                onTap: () => Navigator.push(context,
+                 MaterialPageRoute(builder: (context) => menuPage()),
+              )),
               ListTile(
                 leading: const Icon(Icons.settings_rounded),
                 title: const Text('Settings'),
@@ -79,7 +86,9 @@ class HomePage extends StatelessWidget {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
               ),
-              onPressed: () => null, //Navigator.pushNamed(context, route.calendarPage),
+              onPressed: () => Navigator.push(context,
+                 MaterialPageRoute(builder: (context) => menuPage()),
+              ),
               child: const Text('Start your day!'),
             ),
           ),
