@@ -73,14 +73,13 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Stack(
           children: <Widget>[
-             Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/homepage_background.jpg'),
-                  fit: BoxFit.cover,
-                ),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/homepage_background.png'),
+                fit: BoxFit.cover,
               ),
             ),
              Text(
@@ -91,21 +90,21 @@ class _HomePageState extends State<HomePage> {
             Align(
               alignment: const Alignment(0, 0.5),
               child:ElevatedButton(
-                style: Theme.of(context).elevatedButtonTheme.style,
-                onPressed: () => null, //Navigator.pushNamed(context, route.calendarPage),
-                child: const Text('Start your day!'),
-              ),
+              onPressed: () =>
+                  null, //Navigator.pushNamed(context, route.calendarPage),
+              child: const Text('Start your day!'),
             ),
-             Align(
-                alignment: const Alignment(0, 0.7),
-                child: ElevatedButton(
-                style: Theme.of(context).elevatedButtonTheme.style,
-                onPressed: () => null, //Navigator.pushNamed(context, route.financePage),
-                child: const Text('Salary information'),
-              ),
-            ),         
-          ],
-        ),
-      );
+          ),
+          Align(
+            alignment: const Alignment(0, 0.7),
+            child: ElevatedButton(
+              onPressed: () =>
+                  null, //Navigator.pushNamed(context, route.financePage),
+              child: const Text('Salary information'),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
