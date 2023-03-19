@@ -15,7 +15,7 @@ ThemeData lightTheme() {
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         color: Colors.blueAccent,
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
       bodyLarge: TextStyle(
@@ -57,10 +57,10 @@ ThemeData darkTheme() {
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color(0xFF121212),
     ),
-    textTheme:  TextTheme(
+    textTheme:  const TextTheme(
       displayLarge: TextStyle(
         color: Colors.orange,
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: FontWeight.bold,
       ),
       bodyLarge: TextStyle(

@@ -1,8 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+ const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+ String? email;
+
+ @override
+  void initState() {
+    super.initState();
+    email = FirebaseAuth.instance.currentUser?.email;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +83,11 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
+             Text(
+                  'Welcome back, $email!',
+                  style: Theme.of(context).textTheme.displayLarge,
+                  textAlign: TextAlign.center,
+                ),   
             Align(
               alignment: const Alignment(0, 0.5),
               child:ElevatedButton(
@@ -87,6 +107,5 @@ class HomePage extends StatelessWidget {
           ],
         ),
       );
-    
   }
 }
