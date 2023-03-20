@@ -62,6 +62,11 @@ class _HomePageState extends State<HomePage> {
                   leading: const Icon(Icons.person_rounded),
                   title: const Text('Profile'),
                   onTap: () => null//Navigator.pushNamed(context, route.profilePage),
+                ), 
+                ListTile(
+                leading: const Icon(Icons.menu),
+                title: const Text('Menu'),
+                onTap: () => Navigator.pushNamed(context, route.menuPage)
                 ),
                 ListTile(
                   leading: const Icon(Icons.settings_rounded),
@@ -70,9 +75,9 @@ class _HomePageState extends State<HomePage> {
                 ),
             ],
         ),
-        ),
-        body: Stack(
-          children: <Widget>[
+        ),  
+      body: Stack(
+        children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -91,7 +96,7 @@ class _HomePageState extends State<HomePage> {
               alignment: const Alignment(0, 0.5),
               child:ElevatedButton(
               onPressed: () =>
-                  null, //Navigator.pushNamed(context, route.calendarPage),
+                  null, //Navigator.pushNamed(context, route.menuPage),
               child: const Text('Start your day!'),
             ),
           ),
