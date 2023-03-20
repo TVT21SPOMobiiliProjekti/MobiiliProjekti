@@ -63,6 +63,12 @@ class HomePage extends StatelessWidget {
                 onTap: () =>
                     null //Navigator.pushNamed(context, route.settingsPage),
                 ),
+                ListTile(
+                leading: const Icon(Icons.settings_rounded),
+                title: const Text('AdminHomePage'),
+                onTap: () =>
+                    Navigator.pushNamed(context, route.adminHomePage),
+                ),
           ],
         ),
       ),
