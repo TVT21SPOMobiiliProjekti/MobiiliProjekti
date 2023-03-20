@@ -69,6 +69,12 @@ class _HomePageState extends State<HomePage> {
                 onTap: () => Navigator.pushNamed(context, route.menuPage)
                 ),
                 ListTile(
+                leading: const Icon(Icons.settings_rounded),
+                title: const Text('AdminHomePage'),
+                onTap: () =>
+                    Navigator.pushNamed(context, route.adminHomePage),
+                ),
+                ListTile(
                   leading: const Icon(Icons.settings_rounded),
                   title: const Text('Settings'),
                   onTap: () => Navigator.pushNamed(context, route.settingsPage),
