@@ -93,12 +93,13 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover,
               ),
             ),
-             Text(
-                  'Welcome back, $email!',
+          ),
+           Text(
+                 'Welcome back, $email!',
                   style: Theme.of(context).textTheme.displayLarge,
                   textAlign: TextAlign.center,
                 ),   
-            Align(
+           Align(
               alignment: const Alignment(0, 0.5),
               child:ElevatedButton(
               onPressed: () =>

@@ -7,7 +7,7 @@ import '../pages/menuPage.dart';
 
 const String homePage = '/';
 const String loginPage = '/login';
-const String settingsPage = '/settings'
+const String settingsPage = '/settings';
 const String menuPage = '/menu';
 const String adminHomePage = '/admin';
 
