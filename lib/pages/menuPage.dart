@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import './homepage.dart';
 import '../utility/router.dart' as route;
 
-class menuPage extends StatelessWidget {
-  const menuPage({super.key});
+class MenuPage extends StatelessWidget {
+  const MenuPage({super.key});
 
   @override
   Widget build(BuildContext context) {

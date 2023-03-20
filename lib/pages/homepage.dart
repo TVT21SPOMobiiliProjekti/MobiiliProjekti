@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './menuPage.dart';
 import '../utility/router.dart' as route;
 
 class HomePage extends StatelessWidget {
@@ -57,9 +56,7 @@ class HomePage extends StatelessWidget {
                ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
-                onTap: () => Navigator.push(context,
-                 MaterialPageRoute(builder: (context) => menuPage()),
-              )),
+                onTap: () => Navigator.pushNamed(context, route.menuPage)),
               ListTile(
                 leading: const Icon(Icons.settings_rounded),
                 title: const Text('Settings'),
@@ -83,21 +80,13 @@ class HomePage extends StatelessWidget {
           Align(
             alignment: const Alignment(0, 0.5),
             child:ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-              ),
-              onPressed: () => Navigator.push(context,
-                 MaterialPageRoute(builder: (context) => menuPage()),
-              ),
+              onPressed: () => Navigator.pushNamed(context, route.menuPage),
               child: const Text('Start your day!'),
             ),
           ),
            Align(
               alignment: const Alignment(0, 0.7),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.orange),
-                ),
+              child: ElevatedButton(               
               onPressed: () => null, //Navigator.pushNamed(context, route.financePage),
               child: const Text('Salary information'),
             ),
