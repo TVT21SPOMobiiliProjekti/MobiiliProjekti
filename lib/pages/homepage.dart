@@ -1,8 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+ const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+ String? email;
+
+ @override
+  void initState() {
+    super.initState();
+    email = FirebaseAuth.instance.currentUser?.email;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +82,14 @@ class HomePage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-          ),
-          Align(
-            alignment: const Alignment(0, 0.5),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.orange),
-              ),
+             Text(
+                  'Welcome back, $email!',
+                  style: Theme.of(context).textTheme.displayLarge,
+                  textAlign: TextAlign.center,
+                ),   
+            Align(
+              alignment: const Alignment(0, 0.5),
+              child:ElevatedButton(
               onPressed: () =>
                   null, //Navigator.pushNamed(context, route.calendarPage),
               child: const Text('Start your day!'),
@@ -83,10 +98,6 @@ class HomePage extends StatelessWidget {
           Align(
             alignment: const Alignment(0, 0.7),
             child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.orange),
-              ),
               onPressed: () =>
                   null, //Navigator.pushNamed(context, route.financePage),
               child: const Text('Salary information'),

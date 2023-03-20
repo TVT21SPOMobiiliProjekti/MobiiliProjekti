@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class MyTheme with ChangeNotifier{
   bool _isDark = true;
-  final _storeTheme = Hive.box('themeData');
+  final _storeTheme = Hive.box('userData');
   
   
   MyTheme(){
