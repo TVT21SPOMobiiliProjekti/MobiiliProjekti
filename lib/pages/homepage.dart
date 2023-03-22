@@ -103,8 +103,9 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: const Alignment(0, 0.5),
             child: ElevatedButton(
+
               onPressed: () =>
-                  null, //Navigator.pushNamed(context, route.menuPage),
+                Navigator.pushNamed(context, route.menuPage),
               child: const Text('Start your day!'),
             ),
           ),
