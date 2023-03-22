@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
 
 class HomePage extends StatefulWidget {
- const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String? email;
 
- String? email;
-
- @override
+  @override
   void initState() {
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
@@ -21,67 +20,69 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        appBar: AppBar(
-          title: const Text('Home Page'),
-          centerTitle: true,
-        ),
-        drawer: Drawer(
-          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-                DrawerHeader(
-                decoration: BoxDecoration(color: Colors.grey.shade800),
-                child: const CircleAvatar(
-                  radius: 50,
-                  backgroundImage: AssetImage('assets/pfp_placeholder.jpg'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        centerTitle: true,
+      ),
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.grey.shade800),
+              child: const CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/pfp_placeholder.jpg'),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home_rounded),
+              title: const Text('Home'),
+              onTap: () => Navigator.pop(context),
+            ),
+            ListTile(
+                leading: const Icon(Icons.calendar_month_rounded),
+                title: const Text('Calendar'),
+                onTap: () =>
+                    null //Navigator.pushNamed(context, route.calendarPage),
                 ),
+            ListTile(
+                leading: const Icon(Icons.message_rounded),
+                title: const Text('Messages'),
+                onTap: () =>
+                    null //Navigator.pushNamed(context, route.messagePage),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.home_rounded),
-                  title: const Text('Home'),
-                  onTap: () => Navigator.pop(context),
+            ListTile(
+                leading: const Icon(Icons.payment_rounded),
+                title: const Text('Salary information'),
+                onTap: () =>
+                    null //Navigator.pushNamed(context, route.financePage),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.calendar_month_rounded),
-                  title: const Text('Calendar'),
-                  onTap: () => null//Navigator.pushNamed(context, route.calendarPage),
+            ListTile(
+                leading: const Icon(Icons.person_rounded),
+                title: const Text('Profile'),
+                onTap: () =>
+                    Navigator.pushNamed(context, route.profilePage),
                 ),
-                ListTile(
-                  leading: const Icon(Icons.message_rounded),
-                  title: const Text('Messages'),
-                  onTap: () => null//Navigator.pushNamed(context, route.messagePage),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.payment_rounded),
-                  title: const Text('Salary information'),
-                  onTap: () => null//Navigator.pushNamed(context, route.financePage),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.person_rounded),
-                  title: const Text('Profile'),
-                  onTap: () => null//Navigator.pushNamed(context, route.profilePage),
-                ), 
-                ListTile(
+            ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
-                onTap: () => Navigator.pushNamed(context, route.menuPage)
-                ),
-                ListTile(
-                leading: const Icon(Icons.settings_rounded),
-                title: const Text('AdminHomePage'),
-                onTap: () =>
-                    Navigator.pushNamed(context, route.adminHomePage),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.settings_rounded),
-                  title: const Text('Settings'),
-                  onTap: () => Navigator.pushNamed(context, route.settingsPage),
-                ),
-            ],
+                onTap: () => Navigator.pushNamed(context, route.menuPage)),
+            ListTile(
+              leading: const Icon(Icons.settings_rounded),
+              title: const Text('AdminHomePage'),
+              onTap: () => Navigator.pushNamed(context, route.adminHomePage),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_rounded),
+              title: const Text('Settings'),
+              onTap: () => Navigator.pushNamed(context, route.settingsPage),
+            ),
+          ],
         ),
-        ),  
+      ),
       body: Stack(
         children: <Widget>[
           Container(
@@ -93,14 +94,15 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover,
               ),
             ),
-             Text(
-                  'Welcome back, $email!',
-                  style: Theme.of(context).textTheme.displayLarge,
-                  textAlign: TextAlign.center,
-                ),   
-            Align(
-              alignment: const Alignment(0, 0.5),
-              child:ElevatedButton(
+          ),
+          Text(
+            'Welcome back, $email!',
+            style: Theme.of(context).textTheme.displayLarge,
+            textAlign: TextAlign.center,
+          ),
+          Align(
+            alignment: const Alignment(0, 0.5),
+            child: ElevatedButton(
               onPressed: () =>
                   null, //Navigator.pushNamed(context, route.menuPage),
               child: const Text('Start your day!'),
