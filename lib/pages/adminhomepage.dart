@@ -55,9 +55,7 @@ class AdminHomePage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () =>
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Avaa popUp- ikkunan"),
-                  )),
+                    Navigator.pushNamed(context, route.manageEmployees),
                   child: const Text("Lisää/Poista työntekijä"),
                 ),
               ),
