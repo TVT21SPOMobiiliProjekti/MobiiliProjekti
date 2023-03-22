@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobprojekti/pages/homepage.dart';
 import 'package:mobprojekti/utility/theme_provider.dart';
 import 'utility/theme_data.dart';
-import './utility/router.dart' as route; 
+import './utility/router.dart' as route;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,19 +16,18 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget{
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
   State<StatefulWidget> createState() {
     return _MyAppState();
   }
-} 
+}
 
-class _MyAppState extends State<MyApp>{ 
+class _MyAppState extends State<MyApp> {
+  late StreamSubscription<User?> user;
 
-late StreamSubscription<User?> user;
-  
   @override
   void initState() {
     super.initState();
@@ -38,12 +37,11 @@ late StreamSubscription<User?> user;
       } else {
         print('User is signed in!');
       }
-    }); 
+    });
     currentTheme.addListener(() {
       setState(() {});
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +50,10 @@ late StreamSubscription<User?> user;
       debugShowCheckedModeBanner: false,
       theme: lightTheme(),
       darkTheme: darkTheme(),
-      themeMode: currentTheme.currentTheme(), 
-      initialRoute: FirebaseAuth.instance.currentUser == null ? route.loginPage : route.homePage,
+      themeMode: currentTheme.currentTheme(),
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? route.loginPage
+          : route.homePage,
       home: const HomePage(),
     );
   }
