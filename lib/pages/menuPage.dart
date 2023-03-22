@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import './homepage.dart';
 import '../utility/router.dart' as route;
 
 class MenuPage extends StatelessWidget {
@@ -12,15 +9,15 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Menu"),
+        title: const Text("Menu"),
         backgroundColor: Colors.black,
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 70,
           ),
-          Center(
+          const Center(
             child: Text(
               "Tuntisaldo:",
               style: TextStyle(
