@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../utility/router.dart' as route;
 
 class EmployeeManager extends StatefulWidget {
   const EmployeeManager({Key? key}) : super(key: key);
@@ -10,12 +13,10 @@ class EmployeeManager extends StatefulWidget {
 }
 
 class _EmployeeManagerState extends State<EmployeeManager> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -36,24 +37,31 @@ class _EmployeeManagerState extends State<EmployeeManager> {
         ),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Users').snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return const Center(child: Text('Something went wrong'));
             }
-      
+
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             }
-      
+
+            if (snapshot.data!.docs.isEmpty) {
+              return const Center(child: Text('No employees found'));
+            }
+
             return ListView(
+              physics: const BouncingScrollPhysics(),
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
-      
+
                 return ListTile(
                   title: Text(data['fname'],
                       style: Theme.of(context).textTheme.displayLarge),
-                  subtitle: Text(data['email'], style: const TextStyle(color: Colors.white)),
+                  subtitle: Text(data['email'],
+                      style: const TextStyle(color: Colors.white)),
                   trailing: data['isWorking']
                       ? const Icon(Icons.check_circle, color: Colors.green)
                       : const Icon(Icons.cancel, color: Colors.red),
@@ -69,20 +77,26 @@ class _EmployeeManagerState extends State<EmployeeManager> {
                           children: <Widget>[
                             data['isAdmin']
                                 ? Text('Admin',
-                                    style: Theme.of(context).textTheme.bodyLarge)
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge)
                                 : Text('Employee',
-                                    style: Theme.of(context).textTheme.bodyLarge),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge),
                             const SizedBox(height: 10),
                             data['isWorking']
                                 ? Text('Currently at work',
-                                    style: Theme.of(context).textTheme.bodyLarge)
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge)
                                 : Text('Not Working right now',
-                                    style: Theme.of(context).textTheme.bodyLarge),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge),
                             const SizedBox(height: 20),
                             Text("Email: " + data['email'],
-                                style: Theme.of(context).textTheme.displayMedium),
+                                style:
+                                    Theme.of(context).textTheme.displayMedium),
                             Text("Phonenumber: " + data['phone'],
-                                style: Theme.of(context).textTheme.displayMedium),
+                                style:
+                                    Theme.of(context).textTheme.displayMedium),
                           ],
                         ),
                         actions: <Widget>[
@@ -103,7 +117,59 @@ class _EmployeeManagerState extends State<EmployeeManager> {
                     );
                   },
                   onLongPress: () {
-                    //Select multiple tiles for deletion
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        icon: const Icon(Icons.person),
+                        title: Text(data['fname'] + ' ' + data['lname'],
+                            style: Theme.of(context).textTheme.displayLarge),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            data['isAdmin']
+                                ? Text('Admin',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge)
+                                : Text('Employee',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge),
+                            const SizedBox(height: 10),
+                            data['isWorking']
+                                ? Text('Currently at work',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge)
+                                : Text('Not Working right now',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge),
+                            const SizedBox(height: 20),
+                            Text("Email: " + data['email'],
+                                style:
+                                    Theme.of(context).textTheme.displayMedium),
+                            Text("Phonenumber: " + data['phone'],
+                                style:
+                                    Theme.of(context).textTheme.displayMedium),
+                          ],
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection('Users')
+                                  .doc(document.id)
+                                  .delete();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 );
               }).toList(),
@@ -111,24 +177,11 @@ class _EmployeeManagerState extends State<EmployeeManager> {
           },
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_rounded),
-            label: 'Employees',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.delete_outline_rounded),
-            label: 'Delete Employee',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Add Employee',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).iconTheme.color,
-        onTap: _onItemTapped,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, route.addEmployees);
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
