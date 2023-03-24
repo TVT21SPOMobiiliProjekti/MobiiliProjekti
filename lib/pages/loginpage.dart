@@ -132,25 +132,70 @@ class LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 20,
                         ),
-                        MaterialButton(
-                          onPressed: () {
-                            signIn(
-                                emailController.text, passwordController.text);
-                          },
-                          color: Colors.orangeAccent[700],
-                          minWidth: 200,
-                          height: 50,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+                      Column(
+                      children: [
+                      MaterialButton(
+                        onPressed: () {
+                          signIn(
+                            emailController.text,
+                            passwordController.text,
+                    );
+                    },
+                        color: Colors.orangeAccent[700],
+                        minWidth: 200,
+                        height: 50,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                    ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                    ),
+                    ),
+                    ),
+                  SizedBox(height: 28), // add 16 pixels of vertical space
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, route.adminHomePage);
+                    },
+                  color: Colors.orangeAccent[700],
+                    minWidth: 200,
+                    height: 50,
+                    shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  child: const Text(
+                    'Admin Login',
+                      style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 28), // add 16 pixels of vertical space
+                MaterialButton(
+                  onPressed: () {
+                    //Navigator.pushNamed(context, route.registerPage); 
+                    // kommentin voi ottaa pois sitte ku register page on valmis  
+                  },
+                  color: Colors.orangeAccent[700],
+                  minWidth: 200,
+                  height: 50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: const Text(
+                    'Register',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                          ],
+                        )
                       ],
                     ),
                   ),
