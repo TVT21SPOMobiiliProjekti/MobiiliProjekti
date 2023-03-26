@@ -6,6 +6,7 @@ import '../pages/settings.dart';
 import '../pages/accountinfopage.dart';
 import '../pages/menupage.dart';
 import '../pages/manage_employees.dart';
+import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
 
 
@@ -16,6 +17,7 @@ const String menuPage = '/menu';
 const String adminHomePage = '/admin';
 const String profilePage = '/profile';
 const String manageEmployees = '/manageEmployees';
+const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
 
 
@@ -36,6 +38,8 @@ Route<dynamic> controller(RouteSettings destination) {
       return MaterialPageRoute(builder: (context) => const AccountInfoPage());
     case manageEmployees:
       return MaterialPageRoute(builder: (context) => const EmployeeManager());
+    case registerpage:
+      return MaterialPageRoute(builder: (context) => const RegisterPage());  
     case addEmployees:
       return MaterialPageRoute(builder: (context) => const AddEmployee());
 

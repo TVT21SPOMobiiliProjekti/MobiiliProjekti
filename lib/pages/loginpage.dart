@@ -94,7 +94,7 @@ class LoginPageState extends State<LoginPage> {
                               color: Colors.grey,
                             ),
                             contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 8.0, top: 8.0),
+                                left: 14.0, bottom: 8.0, top: 14.0),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white),
                               borderRadius: BorderRadius.circular(10.0),
@@ -151,6 +151,27 @@ class LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            navigateToRegisterPage();
+                          },
+                          color: Colors.orangeAccent[700],
+                          minWidth: 200,
+                          height: 50,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -184,5 +205,9 @@ class LoginPageState extends State<LoginPage> {
 
   void navigateToHomePage() {
     Navigator.pushReplacementNamed(context, route.homePage);
+  }
+
+  void navigateToRegisterPage() {
+    Navigator.pushReplacementNamed(context, route.registerpage);
   }
 }
