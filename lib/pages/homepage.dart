@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
+    print(FirebaseAuth.instance.currentUser?.email);
   }
 
   @override
@@ -61,11 +62,10 @@ class _HomePageState extends State<HomePage> {
                     null //Navigator.pushNamed(context, route.financePage),
                 ),
             ListTile(
-                leading: const Icon(Icons.person_rounded),
-                title: const Text('Profile'),
-                onTap: () =>
-                    Navigator.pushNamed(context, route.profilePage),
-                ),
+              leading: const Icon(Icons.person_rounded),
+              title: const Text('Profile'),
+              onTap: () => Navigator.pushNamed(context, route.profilePage),
+            ),
             ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
@@ -103,9 +103,7 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: const Alignment(0, 0.5),
             child: ElevatedButton(
-
-              onPressed: () =>
-                Navigator.pushNamed(context, route.menuPage),
+              onPressed: () => Navigator.pushNamed(context, route.menuPage),
               child: const Text('Start your day!'),
             ),
           ),
