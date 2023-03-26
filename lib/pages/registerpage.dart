@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
@@ -14,6 +15,7 @@ class RegisterPageState extends State<RegisterPage> {
   final TextEditingController firstnameController = TextEditingController();
   final TextEditingController lastnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repassController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
@@ -171,6 +173,41 @@ class RegisterPageState extends State<RegisterPage> {
                         ),
                         TextFormField(
                           style: const TextStyle(color: Colors.black),
+                          controller: numberController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Phone number',
+                            hintStyle: TextStyle(color: Colors.grey),
+                            contentPadding: EdgeInsets.only(
+                                left: 14, bottom: 8, top: 8, right: 14),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your phone number';
+                            } else {
+                              return null;
+                            }
+                          },
+                          onSaved: (value) {
+                            numberController.text = value!;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          style: const TextStyle(color: Colors.black),
                           controller: passwordController,
                           decoration: InputDecoration(
                             filled: true,
@@ -320,10 +357,23 @@ class RegisterPageState extends State<RegisterPage> {
   void register(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: password);
-        navigateToLoginPage();
-        print(userCredential);
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {
+                  FirebaseFirestore.instance
+                      .collection('Users')
+                      .doc(value.user!.uid)
+                      .set({
+                    'fname': firstnameController.text,
+                    'lname': lastnameController.text,
+                    'email': emailController.text,
+                    'phone': numberController.text,
+                    'username': usernameController.text,
+                    'isAdmin': true,
+                    'isWorking': false,
+                  })
+                });
+        navigateToLoginPage();        
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
