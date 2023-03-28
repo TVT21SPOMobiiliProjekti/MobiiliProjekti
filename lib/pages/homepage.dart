@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Menu'),
                 onTap: () => Navigator.pushNamed(context, route.menuPage)),
             ListTile(
-              leading: const Icon(Icons.settings_rounded),
+              leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('AdminHomePage'),
               onTap: () => Navigator.pushNamed(context, route.adminHomePage),
             ),
