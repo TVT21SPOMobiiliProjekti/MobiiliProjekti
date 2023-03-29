@@ -43,9 +43,8 @@ class AdminHomePage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () =>
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Avaa kalenterin"),
-                  )),
+                      Navigator.pushNamed(context, route.calendarAdmin),
+                 
                   child: const Text("Tarkastele vuoroja"),
                 ),
               ),

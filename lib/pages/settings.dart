@@ -138,6 +138,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void navigateToLoginPage() {
-    Navigator.pushReplacementNamed(context, route.loginPage);
+    Navigator.pushNamedAndRemoveUntil(
+        context, route.loginPage, (route) => false);
   }
 }

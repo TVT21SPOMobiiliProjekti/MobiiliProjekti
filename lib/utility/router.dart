@@ -8,6 +8,7 @@ import '../pages/menupage.dart';
 import '../pages/manage_employees.dart';
 import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
+import '../pages/calendar_admin.dart';
 
 
 const String homePage = '/';
@@ -19,6 +20,7 @@ const String profilePage = '/profile';
 const String manageEmployees = '/manageEmployees';
 const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
+const String calendarAdmin = '/calendarAdmin';
 
 
 
@@ -42,6 +44,8 @@ Route<dynamic> controller(RouteSettings destination) {
       return MaterialPageRoute(builder: (context) => const RegisterPage());  
     case addEmployees:
       return MaterialPageRoute(builder: (context) => const AddEmployee());
+    case calendarAdmin:
+      return MaterialPageRoute(builder: (context) => const CalendarAdmin());
 
     default:
       throw ('This route does not exist');
