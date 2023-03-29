@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import '../utility/router.dart' as route;
 
 class MenuPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  
+  final _timeStampInfo = Hive.box('userData');
   User? user = FirebaseAuth.instance.currentUser;
 
   DateTime time = DateTime.now();
@@ -75,8 +78,9 @@ class _MenuPageState extends State<MenuPage> {
                   onPressed: () {
                     startTimer();
                     startLunch();
+                    
                   },
-                  child: Text("Lounas"),
+                  child: const Text("Lounas"),
                 ),
               ),
               const SizedBox(
@@ -87,8 +91,9 @@ class _MenuPageState extends State<MenuPage> {
                   onPressed: () {
                     startTimer();
                     endLunch();
+                  
                   },
-                  child: Text("Lopeta lounas"),
+                  child: const Text("Lopeta lounas"),
                 ),
               ),
               const SizedBox(
@@ -99,6 +104,7 @@ class _MenuPageState extends State<MenuPage> {
                   onPressed: () {
                     startTimer();
                     startPersonal();
+               
                   },
                   child: const Text("Oma meno"),
                 ),
@@ -111,6 +117,7 @@ class _MenuPageState extends State<MenuPage> {
                   onPressed: () {
                     startTimer();
                     endPersonal();
+                   
                   },
                   child: const Text("Lopeta oma meno"),
                 ),
@@ -123,6 +130,7 @@ class _MenuPageState extends State<MenuPage> {
                   onPressed: () {
                     startTimer();
                     endWork();
+                
                   },
                   child: const Text("Päätä työ"),
                 ),
@@ -150,8 +158,8 @@ class _MenuPageState extends State<MenuPage> {
   void startWork() async {
     setState(() {
       docId = time.toString();
+      _timeStampInfo.put("hour", docId);
     });
-
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
         .doc(docId)
@@ -161,9 +169,10 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   void endWork() async {
+    
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
+        .doc(_timeStampInfo.get("hour"))
         .set({
       'endWork': time,
     }, SetOptions(merge: true));
@@ -172,7 +181,7 @@ class _MenuPageState extends State<MenuPage> {
   void startLunch() async {
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
+        .doc(_timeStampInfo.get("hour"))
         .set({
       'startLunch': time,
     }, SetOptions(merge: true));
@@ -181,7 +190,7 @@ class _MenuPageState extends State<MenuPage> {
   void endLunch() async {
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
+        .doc(_timeStampInfo.get("hour"))
         .set({
       'endLunch': time,
     }, SetOptions(merge: true));
@@ -190,7 +199,7 @@ class _MenuPageState extends State<MenuPage> {
   void startPersonal() async {
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
+        .doc(_timeStampInfo.get("hour"))
         .set({
       'startPersonal': time,
     }, SetOptions(merge: true));
@@ -199,7 +208,7 @@ class _MenuPageState extends State<MenuPage> {
   void endPersonal() async {
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
+        .doc(_timeStampInfo.get("hour"))
         .set({
       'endPersonal': time,
     }, SetOptions(merge: true));
