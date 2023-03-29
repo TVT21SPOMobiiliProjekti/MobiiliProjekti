@@ -1,4 +1,5 @@
-import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
 
@@ -10,59 +11,24 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  Timer? _timer;
-  int _secondsElapsed = 0;
-  int _minutesElapsed = 0;
-  int _hoursElapsed = 0;
+  User? user = FirebaseAuth.instance.currentUser;
 
-  void _startTimer() {
-    if (_timer == null || !_timer!.isActive) {
-      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        setState(() {
-          _secondsElapsed++;
+  DateTime time = DateTime.now();
+  String? docId;
 
-          if (_secondsElapsed == 60) {
-            _secondsElapsed = 0;
-            _minutesElapsed++;
-          }
-
-          if (_minutesElapsed == 60) {
-            _minutesElapsed = 0;
-            _hoursElapsed++;
-          }
-        });
-      });
-    }
-  }
-
-  void _stopTimer() {
-    if (_timer != null && _timer!.isActive) {
-      _timer!.cancel();
-      _timer = null;
-    }
-  }
-
-  void _resetTimer() {
-    _stopTimer();
+  void startTimer() {
     setState(() {
-      _secondsElapsed = 0;
-      _minutesElapsed = 0;
-      _hoursElapsed = 0;
+      time = DateTime.now();
     });
   }
 
   @override
-  void dispose() {
-    _stopTimer();
-    super.dispose();
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String secondsText = _secondsElapsed.toString().padLeft(2, '0');
-    String minutesText = _minutesElapsed.toString().padLeft(2, '0');
-    String hoursText = _hoursElapsed.toString().padLeft(2, '0');
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -83,17 +49,21 @@ class _MenuPageState extends State<MenuPage> {
           Column(
             children: [
               const SizedBox(
-                height: 70,
+                height: 20,
               ),
               Center(
-                child: Text('Tuntisaldo: $hoursText:$minutesText:$secondsText'),
+                child: Text(time.toString().substring(0, 16),
+                    style: Theme.of(context).textTheme.bodyLarge),
               ),
               const SizedBox(
-                height: 100,
+                height: 60,
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: _startTimer,
+                  onPressed: () {
+                    startTimer();
+                    startWork();
+                  },
                   child: const Text("Aloita työ"),
                 ),
               ),
@@ -102,8 +72,11 @@ class _MenuPageState extends State<MenuPage> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: _stopTimer,
-                  child: const Text("Lounas"),
+                  onPressed: () {
+                    startTimer();
+                    startLunch();
+                  },
+                  child: Text("Lounas"),
                 ),
               ),
               const SizedBox(
@@ -111,7 +84,22 @@ class _MenuPageState extends State<MenuPage> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: _stopTimer,
+                  onPressed: () {
+                    startTimer();
+                    endLunch();
+                  },
+                  child: Text("Lopeta lounas"),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    startTimer();
+                    startPersonal();
+                  },
                   child: const Text("Oma meno"),
                 ),
               ),
@@ -120,8 +108,11 @@ class _MenuPageState extends State<MenuPage> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: _resetTimer,
-                  child: const Text("Päätä työ"),
+                  onPressed: () {
+                    startTimer();
+                    endPersonal();
+                  },
+                  child: const Text("Lopeta oma meno"),
                 ),
               ),
               const SizedBox(
@@ -129,16 +120,18 @@ class _MenuPageState extends State<MenuPage> {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text("->"),
-                          padding: EdgeInsets.only(left: 220.0),
-                          backgroundColor: Colors.orange)),
-                  child: const Text("Palkkatiedot"),
+                  onPressed: () {
+                    startTimer();
+                    endWork();
+                  },
+                  child: const Text("Päätä työ"),
                 ),
               ),
               const SizedBox(
-                height: 80,
+                height: 30,
+              ),
+              const SizedBox(
+                height: 60,
               ),
               Center(
                 child: ElevatedButton(
@@ -152,5 +145,63 @@ class _MenuPageState extends State<MenuPage> {
         ],
       ),
     );
+  }
+
+  void startWork() async {
+    setState(() {
+      docId = time.toString();
+    });
+
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'startWork': time,
+    });
+  }
+
+  void endWork() async {
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'endWork': time,
+    }, SetOptions(merge: true));
+  }
+
+  void startLunch() async {
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'startLunch': time,
+    }, SetOptions(merge: true));
+  }
+
+  void endLunch() async {
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'endLunch': time,
+    }, SetOptions(merge: true));
+  }
+
+  void startPersonal() async {
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'startPersonal': time,
+    }, SetOptions(merge: true));
+  }
+
+  void endPersonal() async {
+    FirebaseFirestore.instance
+        .collection('/Users/${user!.uid}/workTime')
+        .doc(docId)
+        .set({
+      'endPersonal': time,
+    }, SetOptions(merge: true));
   }
 }
