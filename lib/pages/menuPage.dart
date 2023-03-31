@@ -14,7 +14,6 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   
   final _timeStampInfo = Hive.box('userData');
-  User? user = FirebaseAuth.instance.currentUser;
 
   DateTime time = DateTime.now();
   String? docId;
@@ -161,7 +160,7 @@ class _MenuPageState extends State<MenuPage> {
       _timeStampInfo.put("hour", docId);
     });
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(docId)
         .set({
       'startWork': time,
@@ -171,7 +170,7 @@ class _MenuPageState extends State<MenuPage> {
   void endWork() async {
     
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(_timeStampInfo.get("hour"))
         .set({
       'endWork': time,
@@ -180,7 +179,7 @@ class _MenuPageState extends State<MenuPage> {
 
   void startLunch() async {
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(_timeStampInfo.get("hour"))
         .set({
       'startLunch': time,
@@ -189,7 +188,7 @@ class _MenuPageState extends State<MenuPage> {
 
   void endLunch() async {
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(_timeStampInfo.get("hour"))
         .set({
       'endLunch': time,
@@ -198,7 +197,7 @@ class _MenuPageState extends State<MenuPage> {
 
   void startPersonal() async {
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(_timeStampInfo.get("hour"))
         .set({
       'startPersonal': time,
@@ -207,7 +206,7 @@ class _MenuPageState extends State<MenuPage> {
 
   void endPersonal() async {
     FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
+        .collection('/Users/${_timeStampInfo.get('uid')}/workTime')
         .doc(_timeStampInfo.get("hour"))
         .set({
       'endPersonal': time,

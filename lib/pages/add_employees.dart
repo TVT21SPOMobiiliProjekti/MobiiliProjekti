@@ -247,7 +247,7 @@ class _AddEmployeeState extends State<AddEmployee> {
   void addEmployee() async {
     try {
       if (_formKey.currentState!.validate()) {
-        FirebaseAuth.instance
+          await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: _emailController.text,
                 password: _lnameController.text + _phoneController.text)    
