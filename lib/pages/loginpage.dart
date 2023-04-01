@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
+import 'package:hive_flutter/hive_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +15,8 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+  final _userInfo = Hive.box('userData');
+  
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +195,7 @@ class LoginPageState extends State<LoginPage> {
           email: email,
           password: password,
         );
+        _userInfo.put('uid', userCredential.user!.uid);
         navigateToHomePage();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

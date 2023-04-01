@@ -134,10 +134,12 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> logOut(BuildContext context) async {
     const CircularProgressIndicator();
     await FirebaseAuth.instance.signOut();
+    _switchPosition.clear();
     navigateToLoginPage();
   }
 
   void navigateToLoginPage() {
-    Navigator.pushNamedAndRemoveUntil(context, route.loginPage, (route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, route.loginPage, (route) => false);
   }
 }
