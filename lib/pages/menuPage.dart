@@ -17,17 +17,16 @@ class _MenuPageState extends State<MenuPage> {
   User? user = FirebaseAuth.instance.currentUser;
 
   DateTime time = DateTime.now();
+  DateTime? lunchStart;
+  DateTime? lunchEnd;
+  DateTime? personalStart;
+  DateTime? personalEnd;
   String? docId;
 
   void startTimer() {
     setState(() {
       time = DateTime.now();
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
@@ -67,7 +66,7 @@ class _MenuPageState extends State<MenuPage> {
                     startTimer();
                     startWork();
                   },
-                  child: const Text("Aloita työ"),
+                  child: const Text("Start work"),
                 ),
               ),
               const SizedBox(
@@ -80,7 +79,7 @@ class _MenuPageState extends State<MenuPage> {
                     startLunch();
                     
                   },
-                  child: const Text("Lounas"),
+                  child: const Text("Lunch"),
                 ),
               ),
               const SizedBox(
@@ -93,7 +92,7 @@ class _MenuPageState extends State<MenuPage> {
                     endLunch();
                   
                   },
-                  child: const Text("Lopeta lounas"),
+                  child: const Text("End lunch"),
                 ),
               ),
               const SizedBox(
@@ -106,7 +105,7 @@ class _MenuPageState extends State<MenuPage> {
                     startPersonal();
                
                   },
-                  child: const Text("Oma meno"),
+                  child: const Text("Personal"),
                 ),
               ),
               const SizedBox(
@@ -119,7 +118,7 @@ class _MenuPageState extends State<MenuPage> {
                     endPersonal();
                    
                   },
-                  child: const Text("Lopeta oma meno"),
+                  child: const Text("End personal"),
                 ),
               ),
               const SizedBox(
@@ -132,7 +131,7 @@ class _MenuPageState extends State<MenuPage> {
                     endWork();
                 
                   },
-                  child: const Text("Päätä työ"),
+                  child: const Text("End work"),
                 ),
               ),
               const SizedBox(
@@ -146,7 +145,7 @@ class _MenuPageState extends State<MenuPage> {
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, route.homePage);
                     },
-                    child: const Text("Takaisin")),
+                    child: const Text("Go back")),
               ),
             ],
           ),
@@ -155,62 +154,118 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  void startWork() async {
-    setState(() {
-      docId = time.toString();
-      _timeStampInfo.put("hour", docId);
+void startWork() async {
+  setState(() {
+    docId = time.toString().substring(0,19); _timeStampInfo.put(docId, time);
     });
-    FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
-        .doc(docId)
-        .set({
-      'startWork': time,
-    });
+  FirebaseFirestore.instance
+      .collection('/Users/${user!.uid}/workTime')
+      .doc(docId)
+      .set({
+    'startWork': time,
+  });
+}
+
+void endWork() async {
+  DateTime? startWork = _timeStampInfo.get(docId) as DateTime?;
+  if (startWork == null) {
+    return;
+  }
+  Duration duration = time.difference(startWork);
+  int hours = duration.inHours;
+  int minutes = duration.inMinutes.remainder(60);
+  int seconds = duration.inSeconds.remainder(60);
+
+  String durationString = '$hours:$minutes:$seconds';
+
+  Duration? lunchDuration = lunchEnd?.difference(lunchStart!);
+  Duration? personalDuration = personalEnd?.difference(personalStart!);
+
+  Duration workDurationAfterBreaks = duration;
+
+  if (lunchDuration != null) {
+    workDurationAfterBreaks -= lunchDuration;
   }
 
-  void endWork() async {
-    
-    FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
-        .doc(_timeStampInfo.get("hour"))
-        .set({
-      'endWork': time,
-    }, SetOptions(merge: true));
+  if (personalDuration != null) {
+    workDurationAfterBreaks -= personalDuration;
   }
+
+  int workHours = workDurationAfterBreaks.inHours;
+  int workMinutes = workDurationAfterBreaks.inMinutes.remainder(60);
+  int workSeconds = workDurationAfterBreaks.inSeconds.remainder(60);
+  String workDurationString = '$workHours:$workMinutes:$workSeconds';
+
+  FirebaseFirestore.instance
+      .collection('/Users/${user!.uid}/workTime')
+      .doc(docId!)
+      .set({
+    'endWork': time,
+    'workDuration': durationString,
+    'workDurationAfterBreaks': workDurationString,
+  }, SetOptions(merge: true));
+}
+
 
   void startLunch() async {
-    FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
-        .doc(_timeStampInfo.get("hour"))
-        .set({
-      'startLunch': time,
-    }, SetOptions(merge: true));
-  }
+  setState(() {
+    lunchStart = time;
+  });
+  FirebaseFirestore.instance
+      .collection('/Users/${user!.uid}/workTime')
+      .doc(docId!)
+      .set({
+    'startLunch': time,
+  }, SetOptions(merge: true));
+}
 
   void endLunch() async {
-    FirebaseFirestore.instance
-        .collection('/Users/${user!.uid}/workTime')
-        .doc(_timeStampInfo.get("hour"))
-        .set({
-      'endLunch': time,
-    }, SetOptions(merge: true));
-  }
+  setState(() {
+    lunchEnd = time;
+  });
+  Duration lunchDuration = lunchEnd!.difference(lunchStart!);
+  int lunchHours = lunchDuration.inHours;
+  int lunchMinutes = lunchDuration.inMinutes.remainder(60);
+  int lunchSeconds = lunchDuration.inSeconds.remainder(60);
+  String durationString = '$lunchHours:$lunchMinutes:$lunchSeconds';
+
+  FirebaseFirestore.instance
+      .collection('/Users/${user!.uid}/workTime')
+      .doc(docId!)
+      .set({
+    'endLunch': lunchEnd as DateTime,
+    'lunchDuration': durationString,
+  }, SetOptions(merge: true));
+}
 
   void startPersonal() async {
+    setState(() {
+    personalStart = time;
+  });
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(_timeStampInfo.get("hour"))
+        .doc(docId!)
         .set({
       'startPersonal': time,
     }, SetOptions(merge: true));
   }
 
   void endPersonal() async {
+    setState(() {
+    personalEnd = time;
+  });
+  Duration personalDuration = personalEnd!.difference(personalStart!);
+  int personalHours = personalDuration.inHours;
+  int personalMinutes = personalDuration.inMinutes.remainder(60);
+  int personalSeconds = personalDuration.inSeconds.remainder(60);
+  String durationString = '$personalHours:$personalMinutes:$personalSeconds';
+
     FirebaseFirestore.instance
         .collection('/Users/${user!.uid}/workTime')
-        .doc(_timeStampInfo.get("hour"))
+        .doc(docId!)
         .set({
-      'endPersonal': time,
+      'endPersonal': personalEnd as DateTime,
+      'personalDuration': durationString,
     }, SetOptions(merge: true));
   }
 }
