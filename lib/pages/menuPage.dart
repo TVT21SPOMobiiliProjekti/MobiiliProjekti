@@ -24,7 +24,6 @@ class _MenuPageState extends State<MenuPage> {
   bool _atLunch = false;
   bool _atPersonal = false;
 
-
   void getTimeStamp() {
     setState(() {
       time = DateTime.now();
@@ -35,7 +34,7 @@ class _MenuPageState extends State<MenuPage> {
   void initState() {
     super.initState();
     uId = _timeStampInfo.get('uid');
-    
+
     if (_timeStampInfo.containsKey('atWork')) {
       _atWork = _timeStampInfo.get('atWork');
     } else {
@@ -55,14 +54,13 @@ class _MenuPageState extends State<MenuPage> {
     }
   }
 
-  bool checkWorkStatus(bool a , bool b) {
+  bool checkWorkStatus(bool a, bool b) {
     if (a == b) {
       return true;
     } else {
       return false;
     }
   }
-    
 
   @override
   Widget build(BuildContext context) {
@@ -83,58 +81,66 @@ class _MenuPageState extends State<MenuPage> {
               ),
             ),
           ),
-            Center(
+          Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [          
-             _atWork
-             ? Text( " Shift started at: ${time.toString().substring(0, 16)}", style: Theme.of(context).textTheme.bodyLarge)            
-             : const Text("Shift not started yet", style: TextStyle(color: Colors.white, fontSize: 16)),
-             
-             const SizedBox(
-               height: 350),
-
-               MaterialButton(
+              children: [
+                _atWork
+                    ? Text(
+                        " Shift started at: ${_timeStampInfo.get('startWork').toString().substring(0, 16)}",
+                        style: Theme.of(context).textTheme.bodyLarge)
+                    : const Text("Shift not started yet",
+                        style: TextStyle(color: Colors.white, fontSize: 16)),
+                const SizedBox(height: 350),
+                MaterialButton(
                   minWidth: MediaQuery.of(context).size.width * 0.8,
-                  color: Theme.of(context).elevatedButtonTheme.style!.backgroundColor!.resolve(<MaterialState>{}),
+                  color: Theme.of(context)
+                      .elevatedButtonTheme
+                      .style!
+                      .backgroundColor!
+                      .resolve(<MaterialState>{}),
                   textColor: Theme.of(context).textTheme.bodyLarge!.color,
                   disabledColor: Colors.grey[500],
                   height: 45,
-                    onPressed: checkWorkStatus(_atLunch, _atPersonal) 
-                          ? () {
-                            if(_atWork) {
-                              getTimeStamp();
-                              endWork();
-                            } else {
-                              getTimeStamp();
-                              startWork();
-                            }
-                            setState(() {
-                              _atWork = !_atWork;
-                              _timeStampInfo.put('atWork', _atWork);
-                            });
+                  onPressed: checkWorkStatus(_atLunch, _atPersonal)
+                      ? () {
+                          if (_atWork) {
+                            getTimeStamp();
+                            endWork();
+                          } else {
+                            getTimeStamp();
+                            startWork();
                           }
-                          : null,
-                    child: _atWork 
-                        ? const Text("End shift")
-                        : const Text("Start shift"),
-                  ),
-                  const SizedBox(
+                          setState(() {
+                            _atWork = !_atWork;
+                            _timeStampInfo.put('atWork', _atWork);
+                          });
+                        }
+                      : null,
+                  child: _atWork
+                      ? const Text("End shift")
+                      : const Text("Start shift"),
+                ),
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                 MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width * 0.35,
-                  color: Theme.of(context).elevatedButtonTheme.style!.backgroundColor!.resolve(<MaterialState>{}),
-                  textColor: Theme.of(context).textTheme.bodyLarge!.color,
-                  disabledColor: Colors.grey[500],
-                  height: 45,
-                    onPressed: checkWorkStatus(_atWork, _atPersonal) 
-                           ? null
-                           : () {
-                              if(_atLunch) {
+                    MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width * 0.35,
+                      color: Theme.of(context)
+                          .elevatedButtonTheme
+                          .style!
+                          .backgroundColor!
+                          .resolve(<MaterialState>{}),
+                      textColor: Theme.of(context).textTheme.bodyLarge!.color,
+                      disabledColor: Colors.grey[500],
+                      height: 45,
+                      onPressed: checkWorkStatus(_atWork, _atPersonal)
+                          ? null
+                          : () {
+                              if (_atLunch) {
                                 getTimeStamp();
                                 endLunch();
                               } else {
@@ -145,47 +151,50 @@ class _MenuPageState extends State<MenuPage> {
                                 _atLunch = !_atLunch;
                                 _timeStampInfo.put('atLunch', _atLunch);
                               });
-                            }, 
-                    child: _atLunch
-                        ? const Text("End lunch")
-                        : const Text("Start lunch"),
-                  ),
-                 MaterialButton(
-                  minWidth: MediaQuery.of(context).size.width * 0.35,
-                  color: Theme.of(context).elevatedButtonTheme.style!.backgroundColor!.resolve(<MaterialState>{}),
-                  textColor: Theme.of(context).textTheme.bodyLarge!.color,
-                  disabledColor: Colors.grey[500],
-
-                  height: 45,
-                    onPressed: checkWorkStatus(_atWork, _atLunch)
-                          ?  null
+                            },
+                      child: _atLunch
+                          ? const Text("End lunch")
+                          : const Text("Start lunch"),
+                    ),
+                    MaterialButton(
+                      minWidth: MediaQuery.of(context).size.width * 0.35,
+                      color: Theme.of(context)
+                          .elevatedButtonTheme
+                          .style!
+                          .backgroundColor!
+                          .resolve(<MaterialState>{}),
+                      textColor: Theme.of(context).textTheme.bodyLarge!.color,
+                      disabledColor: Colors.grey[500],
+                      height: 45,
+                      onPressed: checkWorkStatus(_atWork, _atLunch)
+                          ? null
                           : () {
-                            if(_atPersonal) {
-                            getTimeStamp();
-                            endPersonal();
-                          } else {
-                            getTimeStamp();
-                            startPersonal();
-                          }
-                          setState(() {
-                            _atPersonal = !_atPersonal;
-                            _timeStampInfo.put('atPersonal', _atPersonal);
-                          });
-                          },
-                    child: _atPersonal
-                        ? const Text("End personal")
-                        : const Text("Start personal"),
-                  ),
+                              if (_atPersonal) {
+                                getTimeStamp();
+                                endPersonal();
+                              } else {
+                                getTimeStamp();
+                                startPersonal();
+                              }
+                              setState(() {
+                                _atPersonal = !_atPersonal;
+                                _timeStampInfo.put('atPersonal', _atPersonal);
+                              });
+                            },
+                      child: _atPersonal
+                          ? const Text("End personal")
+                          : const Text("Start personal"),
+                    ),
                   ],
                 ),
                 const SizedBox(
                   height: 60,
                 ),
-                 ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, route.homePage);
-                      },
-                      child: const Text("Go back")),     
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, route.homePage);
+                    },
+                    child: const Text("Go back")),
               ],
             ),
           ),
@@ -223,8 +232,10 @@ class _MenuPageState extends State<MenuPage> {
     DateTime? lunchEnd = _timeStampInfo.get('lunchEnd') as DateTime?;
     DateTime? personalEnd = _timeStampInfo.get('personalEnd') as DateTime?;
 
-    Duration? lunchDuration = lunchEnd?.difference(_timeStampInfo.get('lunchStart') as DateTime);
-    Duration? personalDuration = personalEnd?.difference(_timeStampInfo.get('personalStart') as DateTime);
+    Duration? lunchDuration =
+        lunchEnd?.difference(_timeStampInfo.get('lunchStart') as DateTime);
+    Duration? personalDuration = personalEnd
+        ?.difference(_timeStampInfo.get('personalStart') as DateTime);
 
     Duration workDurationAfterBreaks = duration;
 
@@ -249,9 +260,14 @@ class _MenuPageState extends State<MenuPage> {
       'workDuration': durationString,
       'workDurationAfterBreaks': workDurationString,
     }, SetOptions(merge: true));
+
+    _timeStampInfo.delete('lunchStart');
+    _timeStampInfo.delete('lunchEnd');
+    _timeStampInfo.delete('personalStart');
+    _timeStampInfo.delete('personalEnd');
   }
 
-  void startLunch() async {  
+  void startLunch() async {
     setState(() {
       lunchStart = time;
     });
@@ -260,15 +276,16 @@ class _MenuPageState extends State<MenuPage> {
         .collection('/Users/$uId/workTime')
         .doc(_timeStampInfo.get('docId'))
         .set({
-      'startLunch': time,
+      'startLunch': lunchStart,
     }, SetOptions(merge: true));
   }
 
-  void endLunch() async {  
+  void endLunch() async {
     setState(() {
       lunchEnd = time;
     });
-    Duration lunchDuration = lunchEnd!.difference(_timeStampInfo.get('lunchStart') as DateTime);
+    Duration lunchDuration =
+        lunchEnd!.difference(_timeStampInfo.get('lunchStart') as DateTime);
     int lunchHours = lunchDuration.inHours;
     int lunchMinutes = lunchDuration.inMinutes.remainder(60);
     int lunchSeconds = lunchDuration.inSeconds.remainder(60);
@@ -293,15 +310,16 @@ class _MenuPageState extends State<MenuPage> {
         .collection('/Users/$uId/workTime')
         .doc(_timeStampInfo.get('docId'))
         .set({
-      'startPersonal': time,
+      'startPersonal': personalStart,
     }, SetOptions(merge: true));
   }
 
-  void endPersonal() async { 
+  void endPersonal() async {
     setState(() {
       personalEnd = time;
     });
-    Duration personalDuration = personalEnd!.difference(_timeStampInfo.get('personalStart') as DateTime);
+    Duration personalDuration = personalEnd!
+        .difference(_timeStampInfo.get('personalStart') as DateTime);
     int personalHours = personalDuration.inHours;
     int personalMinutes = personalDuration.inMinutes.remainder(60);
     int personalSeconds = personalDuration.inSeconds.remainder(60);
