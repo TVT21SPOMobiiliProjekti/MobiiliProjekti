@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobprojekti/pages/homepage.dart';
+import 'package:mobprojekti/pages/loginpage.dart';
 import 'package:mobprojekti/utility/theme_provider.dart';
 import 'utility/theme_data.dart';
 import './utility/router.dart' as route;
@@ -56,5 +57,21 @@ class _MyAppState extends State<MyApp> {
           : route.homePage,
       home: const HomePage(),
     );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const HomePage();
+          } else {
+            return const LoginPage();
+          }
+        });
   }
 }

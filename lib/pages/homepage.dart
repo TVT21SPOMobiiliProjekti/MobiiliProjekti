@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../pages/messages.dart/functions.dart';
 import '../utility/router.dart' as route;
 
 class HomePage extends StatefulWidget {
@@ -14,6 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    Functions.updateAvailability();
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
     print(FirebaseAuth.instance.currentUser?.email);
@@ -53,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.message_rounded),
                 title: const Text('Messages'),
                 onTap: () =>
-                    null //Navigator.pushNamed(context, route.messagePage),
+                    Navigator.pushNamed(context, route.messagemain),
                 ),
             ListTile(
                 leading: const Icon(Icons.payment_rounded),

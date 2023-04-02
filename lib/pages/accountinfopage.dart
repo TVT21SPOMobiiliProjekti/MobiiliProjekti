@@ -112,7 +112,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 leading: const Icon(Icons.message_rounded),
                 title: const Text('Messages'),
                 onTap: () =>
-                    null //Navigator.pushNamed(context, route.messagePage),
+                     Navigator.pushNamed(context, route.messagemain),
                 ),
             ListTile(
                 leading: const Icon(Icons.payment_rounded),
