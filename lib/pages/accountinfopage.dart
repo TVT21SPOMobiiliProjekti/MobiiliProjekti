@@ -50,29 +50,30 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
       setState(() {
         _editingPassword = !_editingPassword;
       });
+      // Luodaan muokkaus mahdollisuus TextFormField kohtiin.
     }
   }
 
   void _saveName() {
-    // voi tallentaa nimen esim. databaseen yms.
+    // voi tallentaa nimen Hiveen.
     _toggleEditing('Name');
     _userInfo.put('Name', _nameController.text);
   }
 
   void _saveAddress() {
-    // voi tallentaa osoitteen esim. databaseen yms.
+    // voi tallentaa osoitteen Hiveen.
     _toggleEditing('Address');
     _userInfo.put('Address', _addressController.text);
   }
 
   void _savePassword() {
-    // voi tallentaa salasanan esim. databaseen yms.
+    // voi tallentaa salasanan Hiveen.
     _toggleEditing('Password');
     _userInfo.put('Password', _passwordController.text);
   }
 
   void _savePhoneNumber() {
-    // voi tallentaa puhelinnumeron esim. databaseen yms.
+    // voi tallentaa puhelinnumeron Hiveen.
     _toggleEditing('Phone number');
     _userInfo.put('Phone number', _mobileController.text);
   }
@@ -115,21 +116,18 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     null //Navigator.pushNamed(context, route.messagePage),
                 ),
             ListTile(
-                leading: const Icon(Icons.payment_rounded),
-                title: const Text('Salary information'),
-                onTap: () =>
-                    null //Navigator.pushNamed(context, route.financePage),
-                ),
+              leading: const Icon(Icons.payment_rounded),
+              title: const Text('Salary information'),
+              onTap: () => Navigator.pushNamed(context, route.salaryInfo),
+            ),
             ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
-                onTap: () =>
-                    Navigator.pushReplacementNamed(context, route.menuPage)),
+                onTap: () => Navigator.pushNamed(context, route.menuPage)),
             ListTile(
               leading: const Icon(Icons.settings_rounded),
               title: const Text('AdminHomePage'),
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, route.adminHomePage),
+              onTap: () => Navigator.pushNamed(context, route.adminHomePage),
             ),
             ListTile(
               leading: const Icon(Icons.settings_rounded),
@@ -138,6 +136,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
             ),
           ],
         ),
+        // "Drawer" valikon toiminnallisuus.
       ),
       body: Stack(
         children: <Widget>[
@@ -149,6 +148,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 image: AssetImage('assets/homepage_background.png'),
                 fit: BoxFit.cover,
               ),
+              // Taustakuvan toiminnallisuus.
             ),
             padding: const EdgeInsets.all(15),
             child: ListView(
@@ -162,6 +162,9 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     Text('Name:'),
                   ],
                 ),
+                // Komponenteilla on oletuksena hintText, johon on mahdollista täyttää omat tiedot.
+                // Tiedot tallentuvat Hiveen, eli käyttäjän käydessä jollain muulla sivulla, annetut tiedot eivät nollaannu.
+                // Jokaisella kentällä on muokkaus mahdollisuus, joka tallettaa aina uudelleen muokatun tiedon Hiveen.
                 Row(
                   children: [
                     Expanded(
@@ -244,7 +247,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 Row(
                   children: [
                     Text(
-                      '$email',
+                      '$email', // Sähköposti haettu Firebasesta (ei ole annettu muokkaus mahdollisuutta).
                     ),
                   ],
                 ),

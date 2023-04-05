@@ -43,7 +43,7 @@ class _AddEmployeeState extends State<AddEmployee> {
                         const SizedBox(
                           height: 80,
                         ),
-                         Text(
+                        Text(
                           'Add Employee',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -131,70 +131,65 @@ class _AddEmployeeState extends State<AddEmployee> {
                         const SizedBox(
                           height: 20,
                         ),
-                         TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Email',
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                        TextFormField(
+                          style: const TextStyle(color: Colors.black),
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Email',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Email is required';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) => _emailController.text = value!,
-                            keyboardType: TextInputType.emailAddress,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) => _emailController.text = value!,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
-                         TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            controller: _phoneController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              hintText: 'Phone',
-                              hintStyle: const TextStyle(color: Colors.grey),
-                              contentPadding: const EdgeInsets.only(
-                                  left: 14.0, bottom: 8.0, top: 8.0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
+                        TextFormField(
+                          style: const TextStyle(color: Colors.black),
+                          controller: _phoneController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Phone',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            contentPadding: const EdgeInsets.only(
+                                left: 14.0, bottom: 8.0, top: 8.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Phonenumber is required';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) => _phoneController.text = value!,
-                            keyboardType: TextInputType.phone,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
-                      
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Phonenumber is required';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) => _phoneController.text = value!,
+                          keyboardType: TextInputType.phone,
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -247,10 +242,10 @@ class _AddEmployeeState extends State<AddEmployee> {
   void addEmployee() async {
     try {
       if (_formKey.currentState!.validate()) {
-          await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
                 email: _emailController.text,
-                password: _lnameController.text + _phoneController.text)    
+                password: _lnameController.text + _phoneController.text)
             .then((value) => {
                   FirebaseFirestore.instance
                       .collection('Users')
