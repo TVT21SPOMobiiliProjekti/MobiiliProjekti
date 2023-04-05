@@ -13,7 +13,6 @@ class EmployeeManager extends StatefulWidget {
 }
 
 class _EmployeeManagerState extends State<EmployeeManager> {
-  
   @override
   void initState() {
     super.initState();
@@ -34,6 +33,7 @@ class _EmployeeManagerState extends State<EmployeeManager> {
             image: AssetImage('assets/employee_manager_bcgrnd.jpg'),
             fit: BoxFit.cover,
           ),
+          // Taustakuvan toiminnallisuus.
         ),
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection('Users').snapshots(),

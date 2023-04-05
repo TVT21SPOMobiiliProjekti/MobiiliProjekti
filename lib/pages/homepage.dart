@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
                 radius: 50,
                 backgroundImage: AssetImage('assets/pfp_placeholder.jpg'),
               ),
+              // AppBarin toiminnallisuus.
             ),
             ListTile(
               leading: const Icon(Icons.home_rounded),
@@ -48,13 +49,13 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Calendar'),
                 onTap: () =>
                     null //Navigator.pushNamed(context, route.calendarPage),
-                ),
+            ),
             ListTile(
                 leading: const Icon(Icons.message_rounded),
                 title: const Text('Messages'),
                 onTap: () =>
                     null //Navigator.pushNamed(context, route.messagePage),
-                ),
+            ),
             ListTile(
               leading: const Icon(Icons.payment_rounded),
               title: const Text('Salary information'),
@@ -68,7 +69,8 @@ class _HomePageState extends State<HomePage> {
             ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
-                onTap: () => Navigator.pushNamed(context, route.menuPage)),
+                onTap: () => Navigator.pushNamed(context, route.menuPage)
+            ),
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('AdminHomePage'),
@@ -79,6 +81,7 @@ class _HomePageState extends State<HomePage> {
               title: const Text('Settings'),
               onTap: () => Navigator.pushNamed(context, route.settingsPage),
             ),
+            // ListTile muuttuja luo Drawerissa mahdollisuuden navigoida eri sivujen välillä.
           ],
         ),
       ),
@@ -94,10 +97,12 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          // Taustakuvan toiminnallisuus.
           Text(
             'Welcome back, $email!',
             style: Theme.of(context).textTheme.displayLarge,
             textAlign: TextAlign.center,
+            // Tervetuloa tervehdyksen toiminnallisuus. Hakee sähköpostin Firebasesta.
           ),
           Align(
             alignment: const Alignment(0, 0.5),
@@ -109,8 +114,7 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: const Alignment(0, 0.7),
             child: ElevatedButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, route.salaryInfo),
+              onPressed: () => Navigator.pushNamed(context, route.salaryInfo),
               child: const Text('Salary information'),
             ),
           ),

@@ -8,10 +8,10 @@ ThemeData lightTheme() {
       textTheme: ButtonTextTheme.primary,
     ),
     appBarTheme: const AppBarTheme(
-      foregroundColor: Colors.black,
-      backgroundColor: Colors.white,
-      titleTextStyle: TextStyle(color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold)
-    ),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        titleTextStyle: TextStyle(
+            color: Colors.black, fontSize: 27, fontWeight: FontWeight.bold)),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
         color: Colors.blueAccent,
@@ -30,10 +30,13 @@ ThemeData lightTheme() {
     ),
     iconTheme: const IconThemeData(
       color: Colors.black,
-    ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent, brightness: Brightness.light),
+    ),
+    colorScheme: ColorScheme.fromSwatch()
+        .copyWith(secondary: Colors.blueAccent, brightness: Brightness.light),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
@@ -59,14 +62,14 @@ ThemeData darkTheme() {
       textTheme: ButtonTextTheme.primary,
     ),
     appBarTheme: const AppBarTheme(
-      foregroundColor: Colors.orange,
-      backgroundColor: Color(0xFF121212),
-      titleTextStyle: TextStyle(color: Colors.orange, fontSize: 27, fontWeight: FontWeight.bold)
-    ),
+        foregroundColor: Colors.orange,
+        backgroundColor: Color(0xFF121212),
+        titleTextStyle: TextStyle(
+            color: Colors.orange, fontSize: 27, fontWeight: FontWeight.bold)),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color(0xFF121212),
     ),
-    textTheme:  const TextTheme(
+    textTheme: const TextTheme(
       displayLarge: TextStyle(
         color: Colors.orange,
         fontSize: 22,
@@ -77,16 +80,17 @@ ThemeData darkTheme() {
         fontWeight: FontWeight.bold,
         fontSize: 16,
       ),
-      displayMedium: TextStyle(
-        color: Colors.white,
-        fontSize: 14),
+      displayMedium: TextStyle(color: Colors.white, fontSize: 14),
     ),
     iconTheme: const IconThemeData(
       color: Colors.orange,
-    ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange, brightness: Brightness.dark),
+    ),
+    colorScheme: ColorScheme.fromSwatch()
+        .copyWith(secondary: Colors.orange, brightness: Brightness.dark),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        foregroundColor: Colors.white, backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.orange,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),

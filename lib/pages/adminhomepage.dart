@@ -22,6 +22,7 @@ class AdminHomePage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            // Taustakuvan ja AppBarin toiminnallisuus.
           ),
           Column(
             children: [
@@ -55,7 +56,7 @@ class AdminHomePage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () =>
-                    Navigator.pushNamed(context, route.manageEmployees),
+                      Navigator.pushNamed(context, route.manageEmployees),
                   child: const Text("Lisää/Poista työntekijä"),
                 ),
               ),

@@ -10,7 +10,6 @@ import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
 import '../pages/salaryinfo.dart';
 
-
 const String homePage = '/';
 const String loginPage = '/login';
 const String settingsPage = '/settings';
@@ -21,8 +20,6 @@ const String manageEmployees = '/manageEmployees';
 const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
 const String salaryInfo = '/salaryInfo';
-
-
 
 Route<dynamic> controller(RouteSettings destination) {
   switch (destination.name) {
@@ -41,10 +38,10 @@ Route<dynamic> controller(RouteSettings destination) {
     case manageEmployees:
       return MaterialPageRoute(builder: (context) => const EmployeeManager());
     case registerpage:
-      return MaterialPageRoute(builder: (context) => const RegisterPage());  
+      return MaterialPageRoute(builder: (context) => const RegisterPage());
     case addEmployees:
       return MaterialPageRoute(builder: (context) => const AddEmployee());
-      case salaryInfo:
+    case salaryInfo:
       return MaterialPageRoute(builder: (context) => const SalaryInfo());
 
     default:

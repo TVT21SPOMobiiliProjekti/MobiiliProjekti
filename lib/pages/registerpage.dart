@@ -33,7 +33,9 @@ class RegisterPageState extends State<RegisterPage> {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/abstract_background.png'),
-                    fit: BoxFit.cover),
+                    fit: BoxFit.cover
+                ),
+              // Taustakuvan toiminnallisuus.
               ),
               child: Center(
                   child: Container(
@@ -373,7 +375,7 @@ class RegisterPageState extends State<RegisterPage> {
                     'isWorking': false,
                   })
                 });
-        navigateToLoginPage();        
+        navigateToLoginPage();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');

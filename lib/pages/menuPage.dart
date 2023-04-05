@@ -80,6 +80,7 @@ class _MenuPageState extends State<MenuPage> {
                 fit: BoxFit.cover,
               ),
             ),
+            // Taustakuvan toiminnallisuus.
           ),
           Center(
             child: Column(
@@ -215,6 +216,7 @@ class _MenuPageState extends State<MenuPage> {
         .set({
       'startWork': time,
     });
+    // Aloita työ "buttonin" toiminnallisuus. Antaa Firebaseen startWork aikaleiman kun käyttäjä on painanut "buttonia".
   }
 
   void endWork() async {
@@ -251,7 +253,7 @@ class _MenuPageState extends State<MenuPage> {
     int workMinutes = workDurationAfterBreaks.inMinutes.remainder(60);
     int workSeconds = workDurationAfterBreaks.inSeconds.remainder(60);
     String workDurationString = '$workHours:$workMinutes:$workSeconds';
-    
+
     int minuutti = workDurationAfterBreaks.inMinutes;
     double minute = (minuutti - 480) / 60;
     FirebaseFirestore.instance
@@ -262,13 +264,16 @@ class _MenuPageState extends State<MenuPage> {
       'workDuration': durationString,
       'workDurationAfterBreaks': workDurationString,
       'overHours': minute
-
     }, SetOptions(merge: true));
 
     _timeStampInfo.delete('lunchStart');
     _timeStampInfo.delete('lunchEnd');
     _timeStampInfo.delete('personalStart');
     _timeStampInfo.delete('personalEnd');
+
+    // Lopeta työ "buttonin" toiminnallisuus.
+    // Antaa Firebaseen endWork aikaleiman ja (workDuration ja workDurationAfterBreaks) ajat String muodossa, kun käyttäjä on painanut "buttonia".
+    // Toteutettu myös laskulogiikka mikä laskee työnkeston kaikkien kertyneiden taukojen jälkeen.
   }
 
   void startLunch() async {
@@ -282,6 +287,8 @@ class _MenuPageState extends State<MenuPage> {
         .set({
       'startLunch': lunchStart,
     }, SetOptions(merge: true));
+    // Lounas "buttonin" toiminnallisuus.
+    // Antaa Firebaseen startLunch datan aikaleimana, kun käyttäjä on painanut "buttonia".
   }
 
   void endLunch() async {
@@ -303,6 +310,7 @@ class _MenuPageState extends State<MenuPage> {
       'endLunch': lunchEnd as DateTime,
       'lunchDuration': durationString,
     }, SetOptions(merge: true));
+    // Antaa Firebaseen endLunch datan aikaleimana ja (lunchDuration) ajan String muodossa, kun käyttäjä on painanut "buttonia".
   }
 
   void startPersonal() async {
@@ -316,6 +324,8 @@ class _MenuPageState extends State<MenuPage> {
         .set({
       'startPersonal': personalStart,
     }, SetOptions(merge: true));
+    // Henkilökohtaisen meno "buttonin" toiminnallisuus.
+    // Antaa Firebaseen startPersonal datan aikaleimana, kun käyttäjä on painanut "buttonia".
   }
 
   void endPersonal() async {
@@ -337,5 +347,6 @@ class _MenuPageState extends State<MenuPage> {
       'endPersonal': personalEnd as DateTime,
       'personalDuration': durationString,
     }, SetOptions(merge: true));
+    // Antaa Firebaseen endPersonal datan aikaleimana ja (personalDuration) ajan String muodossa, kun käyttäjä on painanut "buttonia".
   }
 }

@@ -16,7 +16,6 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   final _userInfo = Hive.box('userData');
-  
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,9 @@ class LoginPageState extends State<LoginPage> {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/abstract_background.png'),
-                    fit: BoxFit.cover),
+                    fit: BoxFit.cover
+                 ),
+              // Taustakuvan toiminnallisuus.
               ),
               child: Center(
                 child: Container(
@@ -82,6 +83,10 @@ class LoginPageState extends State<LoginPage> {
                             emailController.text = value!;
                           },
                           keyboardType: TextInputType.emailAddress,
+                          // Oletuksena hintTextinä "Email", johon käyttäjä pystyy syöttää oman sähköpostinsa. Vertaa annettua "arvoa" Firebaseen.
+                          // Antaa käyttäjälle pääsyn jos sählöposti täsmää tulosta Firebasessa.
+                          // Tallentaa käyttäjän syöttämät tiedot Hiveen, joka mahdollistaa käyttäjän pysymisen sisäänkirjautuneena, jopa sovelluksen sulkemisen jälkeen.
+                          // Jos sähköpostia ei löydy, sovellus tulostaa varoitus ilmoituksen "Please enter a valid email address".
                         ),
                         const SizedBox(
                           height: 20,
@@ -131,6 +136,8 @@ class LoginPageState extends State<LoginPage> {
                             passwordController.text = value!;
                           },
                           obscureText: _isObscure,
+                          // Salasanan toiminnallisuus sama kuin sähköpostin.
+                          //  Mahdollisuus piilottaa tai näyttää salasana sitä syöttäessä.
                         ),
                         const SizedBox(
                           height: 20,

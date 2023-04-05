@@ -16,25 +16,23 @@ class _SalaryInfoState extends State<SalaryInfo> {
   bool _editingName = false;
   Map? _map;
   List? values;
-@override
-
-   void initState() {
-     super.initState();
+  
+  @override
+  void initState() {
+    super.initState();
     uID = _userInfo.get("uid");
     _overHours();
-   }
+  }
 
   void _overHours() async {
-    overHours.collection('/Users/$uID/workTime')
-    .get().then((value) {
-        for (var docSnapshot in value.docs) {
-      _map = docSnapshot.data();
-       print('${_map!['overHours']}');
-      /*values = _map!['overHours'];
+    overHours.collection('/Users/$uID/workTime').get().then((value) {
+      for (var docSnapshot in value.docs) {
+        _map = docSnapshot.data();
+        print('${_map!['overHours']}');
+        /*values = _map!['overHours'];
       print(values);*/
-       }
-    }
-    );
+      }
+    });
   }
 
   void _toggleEditing(String condition) {
@@ -44,7 +42,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
       });
     }
   }
-  
+
   void _saveName() {
     _toggleEditing('Tuntipalkka');
     _userInfo.put('Tuntipalkka', _nameController.text);
@@ -52,7 +50,6 @@ class _SalaryInfoState extends State<SalaryInfo> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           title: const Text("Salary information"),
@@ -75,12 +72,10 @@ class _SalaryInfoState extends State<SalaryInfo> {
                   height: 25,
                 ),
                 Row(
-                  children:  const [
+                  children: const [
                     Text(
                       "Tehtävänimike: Putkiasentaja",
-                    style: TextStyle(
-                      fontSize: 20
-                    ),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -91,9 +86,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                   children: const [
                     Text(
                       "Viikkotyöaika: 38h",
-                      style: TextStyle(
-                      fontSize: 20
-                    ),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -101,28 +94,29 @@ class _SalaryInfoState extends State<SalaryInfo> {
                   height: 40,
                 ),
                 Row(
-                  children:  [
-                    const Text("Tuntipalkka /h : ",
-                    style: TextStyle(
-                      fontSize: 20
-                    ),),
+                  children: [
+                    const Text(
+                      "Tuntipalkka /h : ",
+                      style: TextStyle(fontSize: 20),
+                    ),
                     const SizedBox(
                       width: 20,
                     ),
-                    Expanded(child: TextFormField(
-                      controller: _nameController,
-                      enabled: _editingName,
-                      decoration: InputDecoration(
-                        hintText: _userInfo.get('Tuntipalkka'),
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onSaved: (value) {
-                        _nameController.text = value!;
-                      }),
-                      ),
-                      IconButton(
+                    Expanded(
+                      child: TextFormField(
+                          controller: _nameController,
+                          enabled: _editingName,
+                          decoration: InputDecoration(
+                            hintText: _userInfo.get('Tuntipalkka'),
+                            hintStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onSaved: (value) {
+                            _nameController.text = value!;
+                          }),
+                    ),
+                    IconButton(
                       onPressed: () => _toggleEditing('Tuntipalkka'),
                       icon: _editingName
                           ? const Icon(Icons.cancel)
@@ -139,48 +133,36 @@ class _SalaryInfoState extends State<SalaryInfo> {
                   height: 40,
                 ),
                 Row(
-                  children:  const [
+                  children: const [
                     Text(
                       "Vuosilomat: 30 päivää",
-                      style: TextStyle(
-                      fontSize: 20
-                    ), 
+                      style: TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 40,
                 ),
-                 Row(
-                  children:  [
+                Row(
+                  children: [
                     Text(
                       'Ylityötunnit: ',
-                     style: TextStyle(
-                      fontSize: 20
-                    ),
+                      style: TextStyle(fontSize: 20),
                     ),
                     SizedBox(
                       width: 30,
                     ),
-                   
                     Text(
                       "",
-                      style: 
-                      TextStyle(
-                        fontSize: 20
-                      ),
+                      style: TextStyle(fontSize: 20),
                     )
-                   
                   ],
                 ),
                 const SizedBox(
                   height: 300,
                 ),
                 ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text("Työhistoria")
-                ),
+                    onPressed: () {}, child: const Text("Työhistoria")),
               ],
             ),
           ),
