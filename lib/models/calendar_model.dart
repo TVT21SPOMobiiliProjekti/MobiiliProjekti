@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'event.dart';
 
 class CalendarModel extends StatelessWidget {
-  
   const CalendarModel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final events = Provider.of<EventManager>(context).events;
+
     return SfCalendar(
-      //dataSource: ,
+      dataSource: EventDataSource(events),
       showNavigationArrow: true,
       firstDayOfWeek: 1,
       initialSelectedDate: DateTime.now(),
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      cellBorderColor: Colors.grey,
+      cellBorderColor: Colors.transparent,
       selectionDecoration: BoxDecoration(
         color: Colors.transparent,
         border: Border.all(
@@ -48,5 +51,40 @@ class CalendarModel extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class EventDataSource extends CalendarDataSource {
+  EventDataSource(List<Event> source) {
+    appointments = source;
+  }
+
+  Event getEvent(int index) {
+    return appointments?[index] as Event;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    return getEvent(index).start;
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    return getEvent(index).end;
+  }
+
+  @override
+  String getSubject(int index) {
+    return getEvent(index).title;
+  }
+
+  @override
+  Color getColor(int index) {
+    return getEvent(index).color;
+  }
+
+  @override
+  bool isAllDay(int index) {
+    return getEvent(index).isAllDay;
   }
 }

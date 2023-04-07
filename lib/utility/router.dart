@@ -9,7 +9,7 @@ import '../pages/manage_employees.dart';
 import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
 import '../pages/calendar_admin.dart';
-
+import '../pages/add_events_page.dart';
 
 const String homePage = '/';
 const String loginPage = '/login';
@@ -21,8 +21,7 @@ const String manageEmployees = '/manageEmployees';
 const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
 const String calendarAdmin = '/calendarAdmin';
-
-
+const String addEvent = '/addEvent';
 
 Route<dynamic> controller(RouteSettings destination) {
   switch (destination.name) {
@@ -41,11 +40,13 @@ Route<dynamic> controller(RouteSettings destination) {
     case manageEmployees:
       return MaterialPageRoute(builder: (context) => const EmployeeManager());
     case registerpage:
-      return MaterialPageRoute(builder: (context) => const RegisterPage());  
+      return MaterialPageRoute(builder: (context) => const RegisterPage());
     case addEmployees:
       return MaterialPageRoute(builder: (context) => const AddEmployee());
     case calendarAdmin:
       return MaterialPageRoute(builder: (context) => const CalendarAdmin());
+    case addEvent:
+      return MaterialPageRoute(builder: (context) => const AddEventsPage());
 
     default:
       throw ('This route does not exist');
