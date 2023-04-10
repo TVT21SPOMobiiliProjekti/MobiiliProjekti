@@ -127,6 +127,7 @@ class _AddEventsPageState extends State<AddEventsPage> {
                         ),
                       ],
                     ),
+                    
                   ],
                 ),
               ),

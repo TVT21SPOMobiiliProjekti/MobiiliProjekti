@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                 leading: const Icon(Icons.calendar_month_rounded),
                 title: const Text('Calendar'),
                 onTap: () =>
-                    null //Navigator.pushNamed(context, route.calendarPage),
+                   Navigator.pushNamed(context, route.calendarPage),
                 ),
             ListTile(
                 leading: const Icon(Icons.message_rounded),
