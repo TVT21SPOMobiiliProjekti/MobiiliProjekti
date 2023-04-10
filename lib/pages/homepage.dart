@@ -56,11 +56,10 @@ class _HomePageState extends State<HomePage> {
                     null //Navigator.pushNamed(context, route.messagePage),
                 ),
             ListTile(
-                leading: const Icon(Icons.payment_rounded),
-                title: const Text('Salary information'),
-                onTap: () =>
-                    null //Navigator.pushNamed(context, route.financePage),
-                ),
+              leading: const Icon(Icons.payment_rounded),
+              title: const Text('Salary information'),
+              onTap: () => Navigator.pushNamed(context, route.salaryInfo),
+            ),
             ListTile(
               leading: const Icon(Icons.person_rounded),
               title: const Text('Profile'),
@@ -71,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('Menu'),
                 onTap: () => Navigator.pushNamed(context, route.menuPage)),
             ListTile(
-              leading: const Icon(Icons.settings_rounded),
+              leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('AdminHomePage'),
               onTap: () => Navigator.pushNamed(context, route.adminHomePage),
             ),
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
             alignment: const Alignment(0, 0.7),
             child: ElevatedButton(
               onPressed: () =>
-                  null, //Navigator.pushNamed(context, route.financePage),
+                  Navigator.pushNamed(context, route.salaryInfo),
               child: const Text('Salary information'),
             ),
           ),
