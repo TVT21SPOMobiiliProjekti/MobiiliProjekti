@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -54,8 +53,11 @@ class EventUtility {
 class EventManager extends ChangeNotifier {
   final List<Event> _events = [];
 
-  List<Event> get events {
-    getEventsFromFirebase();
+  EventManager() {
+    //getEventsFromFirebase();
+  }
+
+  List<Event> get events  {
     return [..._events];
   }
 
@@ -76,8 +78,9 @@ class EventManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getEventsFromFirebase() async {
-    FirebaseFirestore.instance.collection('Events').get().then((snapshot) {
+  Future<List<Event>> getEventsFromFirebase() async {
+    _events.clear();
+    await FirebaseFirestore.instance.collection('Events').get().then((snapshot) {
       for (var doc in snapshot.docs) {
         _events.add(Event(
           title: doc['title'],
@@ -88,5 +91,6 @@ class EventManager extends ChangeNotifier {
         ));
       }
     });
+    return _events;
   }
 }

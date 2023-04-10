@@ -10,7 +10,9 @@ import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
 import '../pages/calendar_admin.dart';
 import '../pages/add_events_page.dart';
+import '../pages/calendar_page.dart';
 import '../pages/salaryinfo.dart';
+
 
 
 const String homePage = '/';
@@ -24,8 +26,8 @@ const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
 const String calendarAdmin = '/calendarAdmin';
 const String addEvent = '/addEvent';
+const String calendarPage = '/calendarPage';
 const String salaryInfo = '/salaryInfo';
-
 
 Route<dynamic> controller(RouteSettings destination) {
   switch (destination.name) {
@@ -51,7 +53,9 @@ Route<dynamic> controller(RouteSettings destination) {
       return MaterialPageRoute(builder: (context) => const CalendarAdmin());
     case addEvent:
       return MaterialPageRoute(builder: (context) => const AddEventsPage());
-      case salaryInfo:
+    case calendarPage:
+      return MaterialPageRoute(builder: (context) => const CalendarPage());
+    case salaryInfo:
       return MaterialPageRoute(builder: (context) => const SalaryInfo());
 
 
