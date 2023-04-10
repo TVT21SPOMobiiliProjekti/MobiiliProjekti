@@ -3,8 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mobprojekti/models/event.dart';
 import 'package:mobprojekti/pages/homepage.dart';
 import 'package:mobprojekti/utility/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'utility/theme_data.dart';
 import './utility/router.dart' as route;
 
@@ -45,16 +47,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: route.controller,
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme(),
-      darkTheme: darkTheme(),
-      themeMode: currentTheme.currentTheme(),
-      initialRoute: FirebaseAuth.instance.currentUser == null
-          ? route.loginPage
-          : route.homePage,
-      home: const HomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => EventManager(),
+      child: MaterialApp(
+        onGenerateRoute: route.controller,
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme(),
+        darkTheme: darkTheme(),
+        themeMode: currentTheme.currentTheme(),
+        initialRoute: FirebaseAuth.instance.currentUser == null
+            ? route.loginPage
+            : route.homePage,
+        home: const HomePage(),
+      ),
     );
   }
 }
