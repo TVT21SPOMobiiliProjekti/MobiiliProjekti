@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import '../utility/router.dart' as route;
 
 class SalaryInfo extends StatefulWidget {
   const SalaryInfo({Key? key}) : super(key: key);
@@ -15,12 +16,12 @@ class _SalaryInfoState extends State<SalaryInfo> {
   String? uID;
   bool _editingName = false;
   Map? _map;
-  List? values;
-@override
+  dynamic values = [];
 
+  @override
    void initState() {
      super.initState();
-    uID = _userInfo.get("uid");
+     uID = _userInfo.get("uid");
     _overHours();
    }
 
@@ -29,11 +30,18 @@ class _SalaryInfoState extends State<SalaryInfo> {
     .get().then((value) {
         for (var docSnapshot in value.docs) {
       _map = docSnapshot.data();
-       print('${_map!['overHours']}');
-      /*values = _map!['overHours'];
-      print(values);*/
+      int length =  _map!['overHours'].toString().length;
+      if (length <= 14){
+        setState(() {
+         values = _map!['overHours'].toString();
+      });
+      } else{
+        setState(() {
+          values = _map!['overHours'].toString().substring(0,17);
+        });
+      }
        }
-    }
+       }
     );
   }
 
@@ -52,7 +60,6 @@ class _SalaryInfoState extends State<SalaryInfo> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           title: const Text("Salary information"),
@@ -153,24 +160,14 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 ),
                  Row(
                   children:  [
-                    Text(
-                      'Ylityötunnit: ',
-                     style: TextStyle(
+                    Text('Tuntisaldo: $values',
+                     style: const TextStyle(
                       fontSize: 20
                     ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
-                   
-                    Text(
-                      "",
-                      style: 
-                      TextStyle(
-                        fontSize: 20
-                      ),
-                    )
-                   
                   ],
                 ),
                 const SizedBox(
@@ -178,6 +175,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 ),
                 ElevatedButton(
                 onPressed: () {
+                  Navigator.pushNamed(context, route.workHistory);
                 },
                 child: const Text("Työhistoria")
                 ),
