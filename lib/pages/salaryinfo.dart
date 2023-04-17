@@ -177,7 +177,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 onPressed: () {
                   Navigator.pushNamed(context, route.workHistory);
                 },
-                child: const Text("Työhistoria")
+                child: const Text("Workhistory")
                 ),
               ],
             ),
