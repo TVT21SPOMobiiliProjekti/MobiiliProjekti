@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
@@ -11,12 +13,43 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? email;
-
+  Timer? _timer; // Timer to check if user is still logged in
   @override
   void initState() {
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
     print(FirebaseAuth.instance.currentUser?.email);
+    _startTimer(); //
+    
+    
+  }
+
+  @override
+  void dispose() {
+    _stopTimer();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _timer = Timer(const Duration(seconds: 10), () {
+      Navigator.pushNamed(context, '/login');
+      print('timer expired');
+    });
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _resetTimer() {
+    _stopTimer();
+    _startTimer();
+  }
+
+  void _onTimerExpired() async {
+    _stopTimer();
+      await FirebaseAuth.instance.signOut(); // sign out
   }
 
   @override
