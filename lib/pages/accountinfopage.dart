@@ -109,11 +109,10 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     null //Navigator.pushNamed(context, route.calendarPage),
                 ),
             ListTile(
-                leading: const Icon(Icons.message_rounded),
-                title: const Text('Messages'),
-                onTap: () =>
-                     Navigator.pushNamed(context, route.messagemain),
-                ),
+              leading: const Icon(Icons.message_rounded),
+              title: const Text('Messages'),
+              onTap: () => Navigator.pushNamed(context, route.messagemain),
+            ),
             ListTile(
                 leading: const Icon(Icons.payment_rounded),
                 title: const Text('Salary information'),

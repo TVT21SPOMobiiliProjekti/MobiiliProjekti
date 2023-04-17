@@ -55,7 +55,7 @@ class AdminHomePage extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () =>
-                    Navigator.pushNamed(context, route.manageEmployees),
+                      Navigator.pushNamed(context, route.manageEmployees),
                   child: const Text("Lisää/Poista työntekijä"),
                 ),
               ),

@@ -41,6 +41,7 @@ dependencies:
   firebase_core: ^2.8.0
   firebase_auth: ^4.3.0
   cloud_firestore: ^4.4.5
+  intl:
   syncfusion_flutter_calendar: ^20.4.54
   font_awesome_flutter: ^10.4.0
 

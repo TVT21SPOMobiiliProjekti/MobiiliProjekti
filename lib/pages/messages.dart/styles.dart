@@ -7,9 +7,13 @@ class Styles {
   }
 
  static BoxDecoration friendsBox(BuildContext context) {
+  final Color backgroundColor = Theme.of(context).brightness == Brightness.dark
+      ? const Color(0xFF121212)
+      : Theme.of(context).colorScheme.background;
+
   return BoxDecoration(
-    color: Theme.of(context).backgroundColor,
-    borderRadius: BorderRadius.only(
+    color: backgroundColor,
+    borderRadius: const BorderRadius.only(
       topLeft: Radius.circular(15),
       topRight: Radius.circular(15),
     ),
@@ -34,6 +38,7 @@ class Styles {
     return InputDecoration(
       border: InputBorder.none,
       hintText: 'Enter Message',
+       hintStyle: const TextStyle(color: Colors.black),
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       suffixIcon: IconButton(onPressed: onSubmit, icon: const Icon(Icons.send)),
     );
@@ -49,11 +54,11 @@ class Styles {
   static searchField({Function(String)? onChange}) {
     return Container(
       margin: const EdgeInsets.all(10),
+      decoration: Styles.messageFieldCardStyle(),
       child: TextField(
        onChanged: onChange,
         decoration: Styles.searchTextFieldStyle(),
       ),
-      decoration: Styles.messageFieldCardStyle(),
     );
   }
 }
