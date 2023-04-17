@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,15 +14,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? email;
+<<<<<<< Updated upstream
   Timer? _timer; // Timer to check if user is still logged in
+=======
+  Timer? _timer; //
+>>>>>>> Stashed changes
   @override
   void initState() {
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
     print(FirebaseAuth.instance.currentUser?.email);
     _startTimer(); //
+<<<<<<< Updated upstream
     
     
+=======
+    _stopTimer();
+    _resetTimer();
+    _onTimerExpired();
+>>>>>>> Stashed changes
   }
 
   @override
@@ -32,8 +43,12 @@ class _HomePageState extends State<HomePage> {
 
   void _startTimer() {
     _timer = Timer(const Duration(seconds: 10), () {
+<<<<<<< Updated upstream
       Navigator.pushNamed(context, '/login');
       print('timer expired');
+=======
+      //Navigator.pushNamed(context, '/login');
+>>>>>>> Stashed changes
     });
   }
 
@@ -49,7 +64,12 @@ class _HomePageState extends State<HomePage> {
 
   void _onTimerExpired() async {
     _stopTimer();
+<<<<<<< Updated upstream
       await FirebaseAuth.instance.signOut(); // sign out
+=======
+    //await FirebaseAuth.instance.signOut(); // sign out
+    Navigator.pushNamed(context, route.loginPage);
+>>>>>>> Stashed changes
   }
 
   @override
@@ -116,39 +136,44 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/homepage_background.png'),
-                fit: BoxFit.cover,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => _resetTimer(),
+        onPanDown: (_) => _resetTimer(),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/homepage_background.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          Text(
-            'Welcome back, $email!',
-            style: Theme.of(context).textTheme.displayLarge,
-            textAlign: TextAlign.center,
-          ),
-          Align(
-            alignment: const Alignment(0, 0.5),
-            child: ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, route.menuPage),
-              child: const Text('Start your day!'),
+            Text(
+              'Welcome back, $email!',
+              style: Theme.of(context).textTheme.displayLarge,
+              textAlign: TextAlign.center,
             ),
-          ),
-          Align(
-            alignment: const Alignment(0, 0.7),
-            child: ElevatedButton(
-              onPressed: () =>
-                  null, //Navigator.pushNamed(context, route.financePage),
-              child: const Text('Salary information'),
+            Align(
+              alignment: const Alignment(0, 0.5),
+              child: ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, route.menuPage),
+                child: const Text('Start your day!'),
+              ),
             ),
-          ),
-        ],
+            Align(
+              alignment: const Alignment(0, 0.7),
+              child: ElevatedButton(
+                onPressed: () =>
+                    null, //Navigator.pushNamed(context, route.financePage),
+                child: const Text('Salary information'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
