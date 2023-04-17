@@ -8,8 +8,12 @@ import '../pages/menupage.dart';
 import '../pages/manage_employees.dart';
 import '../pages/registerpage.dart';
 import '../pages/add_employees.dart';
+import '../pages/calendar_admin.dart';
+import '../pages/add_events_page.dart';
+import '../pages/calendar_page.dart';
 import '../pages/salaryinfo.dart';
 import '../pages/workHistory.dart';
+
 
 
 const String homePage = '/';
@@ -21,10 +25,11 @@ const String profilePage = '/profile';
 const String manageEmployees = '/manageEmployees';
 const String registerpage = '/register';
 const String addEmployees = '/addEmployees';
+const String calendarAdmin = '/calendarAdmin';
+const String addEvent = '/addEvent';
+const String calendarPage = '/calendarPage';
 const String salaryInfo = '/salaryInfo';
 const String workHistory = '/workHistory';
-
-
 
 Route<dynamic> controller(RouteSettings destination) {
   switch (destination.name) {
@@ -43,13 +48,20 @@ Route<dynamic> controller(RouteSettings destination) {
     case manageEmployees:
       return MaterialPageRoute(builder: (context) => const EmployeeManager());
     case registerpage:
-      return MaterialPageRoute(builder: (context) => const RegisterPage());  
+      return MaterialPageRoute(builder: (context) => const RegisterPage());
     case addEmployees:
       return MaterialPageRoute(builder: (context) => const AddEmployee());
-      case salaryInfo:
+    case calendarAdmin:
+      return MaterialPageRoute(builder: (context) => const CalendarAdmin());
+    case addEvent:
+      return MaterialPageRoute(builder: (context) => const AddEventsPage());
+    case calendarPage:
+      return MaterialPageRoute(builder: (context) => const CalendarPage());
+    case salaryInfo:
       return MaterialPageRoute(builder: (context) => const SalaryInfo());
       case workHistory:
       return MaterialPageRoute(builder: (context) => const Workhistory());
+
 
     default:
       throw ('This route does not exist');
