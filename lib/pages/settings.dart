@@ -107,6 +107,35 @@ class _SettingsPageState extends State<SettingsPage> {
             Row(
               children: [
                 const Icon(
+                  Icons.delete,
+                ),
+                const SizedBox(width: 10),
+                const Text(
+                  "Clear local data",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_forward,
+                  ),
+                  onPressed: () {
+                    clearLocalData();
+                  },
+                ),
+              ],
+            ),
+
+            const Divider(
+              height: 20,
+              thickness: 1,
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+              children: [
+                const Icon(
                   Icons.logout,
                 ),
                 const SizedBox(width: 10),
@@ -134,7 +163,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> logOut(BuildContext context) async {
     const CircularProgressIndicator();
     await FirebaseAuth.instance.signOut();
-    _switchPosition.clear();
     navigateToLoginPage();
   }
 
@@ -142,4 +170,14 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.pushNamedAndRemoveUntil(
         context, route.loginPage, (route) => false);
   }
+
+  void clearLocalData() {
+
+    _switchPosition.clear();
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Data has been deleted successfully'),
+        backgroundColor: Colors.green,
+      ));
+  }
+
 }
