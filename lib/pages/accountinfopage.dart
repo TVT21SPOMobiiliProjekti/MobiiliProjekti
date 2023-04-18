@@ -15,14 +15,13 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
 
   final _userInfo = Hive.box('userData');
 
-  final _nameController = TextEditingController();
-  final _mobileController = TextEditingController();
-  final _addressController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _mobileController = TextEditingController();
+  late final _rePasswordController = TextEditingController();
+  late final _reEmailController = TextEditingController();
 
-  bool _editingName = false;
-  bool _editingMobile = false;
-  bool _editingAddress = false;
   bool _editingPassword = false;
 
   bool _isObscure = true;
@@ -34,47 +33,86 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
   }
 
   void _toggleEditing(String condition) {
-    if (condition == 'Name') {
-      setState(() {
-        _editingName = !_editingName;
-      });
-    } else if (condition == 'Phone number') {
-      setState(() {
-        _editingMobile = !_editingMobile;
-      });
-    } else if (condition == 'Address') {
-      setState(() {
-        _editingAddress = !_editingAddress;
-      });
-    } else if (condition == 'Password') {
+    if (condition == 'Password') {
       setState(() {
         _editingPassword = !_editingPassword;
       });
     }
   }
 
-  void _saveName() {
-    // voi tallentaa nimen esim. databaseen yms.
-    _toggleEditing('Name');
-    _userInfo.put('Name', _nameController.text);
+  void reAuthenticate() async {
+    AuthCredential credential = EmailAuthProvider.credential(
+        email: _reEmailController.text, password: _rePasswordController.text);
+
+    await FirebaseAuth.instance.currentUser!
+        .reauthenticateWithCredential(credential);
+
+    Navigator.of(context).pop();
   }
 
-  void _saveAddress() {
-    // voi tallentaa osoitteen esim. databaseen yms.
-    _toggleEditing('Address');
-    _userInfo.put('Address', _addressController.text);
-  }
-
-  void _savePassword() {
-    // voi tallentaa salasanan esim. databaseen yms.
+  void _savePassword(String i) async {
     _toggleEditing('Password');
+
+    try {
+      await FirebaseAuth.instance.currentUser!
+          .updatePassword(_passwordController.text);
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Password updated successfully'),
+        backgroundColor: Colors.green,
+      ));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            icon: const Icon(Icons.add_alert),
+            title: const Text('re-authenticate'),
+            titleTextStyle: Theme.of(context).textTheme.displayLarge,
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _reEmailController,
+                  onSaved: (newValue) => _reEmailController.text = newValue!,
+                  decoration: const InputDecoration(
+                    hintText: ('Email'),
+                  ),
+                ),
+                TextFormField(
+                  controller: _rePasswordController,
+                  onSaved: (newValue) => _rePasswordController.text = newValue!,
+                  decoration: const InputDecoration(
+                    hintText: ('Old Password'),
+                  ),
+                )
+              ],
+            ),
+            actions: [
+              TextButton(onPressed: reAuthenticate, child: const Text('Ok')),
+            ],
+          ),
+        );
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(e.message!),
+        backgroundColor: Colors.red,
+      ));
+    }
+
     _userInfo.put('Password', _passwordController.text);
   }
 
-  void _savePhoneNumber() {
-    // voi tallentaa puhelinnumeron esim. databaseen yms.
-    _toggleEditing('Phone number');
-    _userInfo.put('Phone number', _mobileController.text);
+  void _saveName(String i) {
+    _userInfo.put('Name', i);
+  }
+
+  void _saveAddress(String i) {
+    _userInfo.put('Address', i);
+  }
+
+  void _saveMobile(String i) {
+    _userInfo.put('Mobile', i);
   }
 
   @override
@@ -103,11 +141,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   Navigator.pushReplacementNamed(context, route.homePage),
             ),
             ListTile(
-                leading: const Icon(Icons.calendar_month_rounded),
-                title: const Text('Calendar'),
-                onTap: () =>
-                    null //Navigator.pushNamed(context, route.calendarPage),
-                ),
+              leading: const Icon(Icons.calendar_month_rounded),
+              title: const Text('Calendar'),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, route.calendarPage),
+            ),
             ListTile(
                 leading: const Icon(Icons.message_rounded),
                 title: const Text('Messages'),
@@ -115,11 +153,11 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     null //Navigator.pushNamed(context, route.messagePage),
                 ),
             ListTile(
-                leading: const Icon(Icons.payment_rounded),
-                title: const Text('Salary information'),
-                onTap: () =>
-                    null //Navigator.pushNamed(context, route.financePage),
-                ),
+              leading: const Icon(Icons.payment_rounded),
+              title: const Text('Salary information'),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, route.salaryInfo),
+            ),
             ListTile(
                 leading: const Icon(Icons.menu),
                 title: const Text('Menu'),
@@ -166,29 +204,16 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                          controller: _nameController,
-                          enabled: _editingName,
-                          decoration: InputDecoration(
-                            hintText: _userInfo.get('Name'),
-                            hintStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
+                        controller: _nameController,
+                        onFieldSubmitted: (newValue) => _saveName(newValue),
+                        decoration: InputDecoration(
+                          hintText: _userInfo.get('Name'),
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
                           ),
-                          onSaved: (value) {
-                            _nameController.text = value!;
-                          }),
-                    ),
-                    IconButton(
-                      onPressed: () => _toggleEditing('Name'),
-                      icon: _editingName
-                          ? const Icon(Icons.cancel)
-                          : const Icon(Icons.edit),
-                    ),
-                    if (_editingName)
-                      IconButton(
-                        onPressed: _saveName,
-                        icon: const Icon(Icons.save),
+                        ),
                       ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -205,26 +230,15 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _mobileController,
-                        enabled: _editingMobile,
+                        onFieldSubmitted: (newValue) => _saveMobile(newValue),
                         decoration: InputDecoration(
-                          hintText: _userInfo.get('Phone number'),
+                          hintText: _userInfo.get('Mobile'),
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => _toggleEditing('Phone number'),
-                      icon: _editingMobile
-                          ? const Icon(Icons.cancel)
-                          : const Icon(Icons.edit),
-                    ),
-                    if (_editingMobile)
-                      IconButton(
-                        onPressed: _savePhoneNumber,
-                        icon: const Icon(Icons.save),
-                      ),
                   ],
                 ),
                 const SizedBox(
@@ -269,7 +283,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _addressController,
-                        enabled: _editingAddress,
+                        onFieldSubmitted: (newValue) => _saveAddress(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Address'),
                           hintStyle: const TextStyle(
@@ -278,17 +292,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => _toggleEditing('Address'),
-                      icon: _editingAddress
-                          ? const Icon(Icons.cancel)
-                          : const Icon(Icons.edit),
-                    ),
-                    if (_editingAddress)
-                      IconButton(
-                        onPressed: _saveAddress,
-                        icon: const Icon(Icons.save),
-                      ),
                   ],
                 ),
                 const SizedBox(
@@ -305,7 +308,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _passwordController,
-                        enabled: _editingPassword,
+                        onFieldSubmitted: (newValue) => _savePassword(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Password'),
                           hintStyle: const TextStyle(
@@ -328,17 +331,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         obscureText: _isObscure,
                       ),
                     ),
-                    IconButton(
-                      onPressed: () => _toggleEditing('Password'),
-                      icon: _editingPassword
-                          ? const Icon(Icons.cancel)
-                          : const Icon(Icons.edit),
-                    ),
-                    if (_editingPassword)
-                      IconButton(
-                        onPressed: _savePassword,
-                        icon: const Icon(Icons.save),
-                      ),
                   ],
                 ),
               ],
