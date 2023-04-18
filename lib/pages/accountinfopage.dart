@@ -106,7 +106,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 leading: const Icon(Icons.calendar_month_rounded),
                 title: const Text('Calendar'),
                 onTap: () =>
-                    null //Navigator.pushNamed(context, route.calendarPage),
+                    Navigator.pushNamed(context, route.calendarPage),
                 ),
             ListTile(
                 leading: const Icon(Icons.message_rounded),
@@ -118,7 +118,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 leading: const Icon(Icons.payment_rounded),
                 title: const Text('Salary information'),
                 onTap: () =>
-                    null //Navigator.pushNamed(context, route.financePage),
+                    Navigator.pushNamed(context, route.salaryInfo),
                 ),
             ListTile(
                 leading: const Icon(Icons.menu),
@@ -144,12 +144,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/homepage_background.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            
             padding: const EdgeInsets.all(15),
             child: ListView(
               children: [
@@ -170,9 +165,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                           enabled: _editingName,
                           decoration: InputDecoration(
                             hintText: _userInfo.get('Name'),
-                            hintStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
+                            
                           ),
                           onSaved: (value) {
                             _nameController.text = value!;
@@ -208,9 +201,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         enabled: _editingMobile,
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Phone number'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          
                         ),
                       ),
                     ),
@@ -272,9 +263,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         enabled: _editingAddress,
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Address'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          
                         ),
                       ),
                     ),
@@ -308,9 +297,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         enabled: _editingPassword,
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Password'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          
                           suffixIcon: IconButton(
                             icon: Icon(
                               _isObscure

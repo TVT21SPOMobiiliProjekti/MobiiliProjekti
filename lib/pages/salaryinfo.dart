@@ -69,12 +69,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/homepage_background.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            
             padding: const EdgeInsets.only(left: 10),
             child: ListView(
               children: [
@@ -84,7 +79,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 Row(
                   children:  const [
                     Text(
-                      "Tehtävänimike: Putkiasentaja",
+                      "Title: Plumber",
                     style: TextStyle(
                       fontSize: 20
                     ),
@@ -97,7 +92,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 Row(
                   children: const [
                     Text(
-                      "Viikkotyöaika: 38h",
+                      "Weekly hours: 38/h",
                       style: TextStyle(
                       fontSize: 20
                     ),
@@ -109,7 +104,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 ),
                 Row(
                   children:  [
-                    const Text("Tuntipalkka /h : ",
+                    const Text("Salary /h : ",
                     style: TextStyle(
                       fontSize: 20
                     ),),
@@ -122,7 +117,6 @@ class _SalaryInfoState extends State<SalaryInfo> {
                       decoration: InputDecoration(
                         hintText: _userInfo.get('Tuntipalkka'),
                         hintStyle: const TextStyle(
-                          color: Colors.white,
                         ),
                       ),
                       onSaved: (value) {
@@ -148,7 +142,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 Row(
                   children:  const [
                     Text(
-                      "Vuosilomat: 30 päivää",
+                      "Vacation: 30 Days",
                       style: TextStyle(
                       fontSize: 20
                     ), 
@@ -160,7 +154,7 @@ class _SalaryInfoState extends State<SalaryInfo> {
                 ),
                  Row(
                   children:  [
-                    Text('Tuntisaldo: $values',
+                    Text('Overtime: $values',
                      style: const TextStyle(
                       fontSize: 20
                     ),
