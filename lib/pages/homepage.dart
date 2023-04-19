@@ -21,31 +21,26 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     email = FirebaseAuth.instance.currentUser?.email;
     print(FirebaseAuth.instance.currentUser?.email);
-    _startTimer(); //
-
-    _stopTimer();
-    _resetTimer();
-    _onTimerExpired();
   }
 
   @override
   void dispose() {
+    _startTimer();
     _stopTimer();
     super.dispose();
   }
 
   void _startTimer() {
-    _timer = Timer(const Duration(seconds: 10), () {
+    _timer = Timer(const Duration(seconds: 10), () async {
       Navigator.pushNamed(context, '/login');
-      print('timer expired');
-
-      //Navigator.pushNamed(context, '/login');
+      print('home timer expired');
+      await FirebaseAuth.instance.signOut();
     });
   }
 
   void _stopTimer() {
     _timer?.cancel();
-    _timer = null;
+    //_timer = null;
   }
 
   void _resetTimer() {
@@ -55,11 +50,6 @@ class _HomePageState extends State<HomePage> {
 
   void _onTimerExpired() async {
     _stopTimer();
-
-    await FirebaseAuth.instance.signOut(); // sign out
-
-    //await FirebaseAuth.instance.signOut(); // sign out
-    Navigator.pushNamed(context, route.loginPage);
   }
 
   @override
