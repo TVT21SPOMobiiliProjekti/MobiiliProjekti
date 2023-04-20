@@ -182,12 +182,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/homepage_background.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
+            
             padding: const EdgeInsets.all(15),
             child: ListView(
               children: [
@@ -204,12 +199,10 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: _nameController,
-                        onFieldSubmitted: (newValue) => _saveName(newValue),
-                        decoration: InputDecoration(
-                          hintText: _userInfo.get('Name'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
+                          controller: _nameController,
+                          enabled: _editingName,
+                          decoration: InputDecoration(
+                            hintText: _userInfo.get('Name'),
                           ),
                         ),
                       ),
@@ -232,10 +225,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         controller: _mobileController,
                         onFieldSubmitted: (newValue) => _saveMobile(newValue),
                         decoration: InputDecoration(
-                          hintText: _userInfo.get('Mobile'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          hintText: _userInfo.get('Phone number'),
                         ),
                       ),
                     ),
@@ -286,9 +276,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         onFieldSubmitted: (newValue) => _saveAddress(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Address'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          
                         ),
                       ),
                     ),
@@ -311,9 +299,7 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         onFieldSubmitted: (newValue) => _savePassword(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Password'),
-                          hintStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
+                          
                           suffixIcon: IconButton(
                             icon: Icon(
                               _isObscure
