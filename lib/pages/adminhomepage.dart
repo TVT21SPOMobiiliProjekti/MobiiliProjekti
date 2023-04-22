@@ -8,7 +8,7 @@ class AdminHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        title: const Text('Admin user'),
         centerTitle: true,
       ),
       body: Stack(
@@ -26,26 +26,14 @@ class AdminHomePage extends StatelessWidget {
           Column(
             children: [
               const SizedBox(
-                height: 50,
-              ),
-              const Center(
-                child: Text(
-                  "Admin",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 250,
+                height: 350,
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () =>
                       Navigator.pushNamed(context, route.calendarAdmin),
                  
-                  child: const Text("Tarkastele vuoroja"),
+                  child: const Text("Calendar"),
                 ),
               ),
               const SizedBox(
@@ -55,7 +43,7 @@ class AdminHomePage extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () =>
                     Navigator.pushNamed(context, route.manageEmployees),
-                  child: const Text("Lisää/Poista työntekijä"),
+                  child: const Text("Manage employees"),
                 ),
               ),
               const SizedBox(
