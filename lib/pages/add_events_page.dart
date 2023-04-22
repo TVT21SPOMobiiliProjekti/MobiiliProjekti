@@ -17,6 +17,7 @@ class _AddEventsPageState extends State<AddEventsPage> {
 
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -127,7 +128,31 @@ class _AddEventsPageState extends State<AddEventsPage> {
                         ),
                       ],
                     ),
-                    
+                   const SizedBox(height: 20),
+                   TextFormField(
+                    style: const TextStyle(color: Colors.black),
+                    controller: _descriptionController,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      hintText: 'Event Description',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 8.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    minLines: 3,
+                    maxLines: 5,
+                    //onFieldSubmitted: (_) => saveEvent(),
+
+                   ),
                   ],
                 ),
               ),
@@ -224,7 +249,7 @@ class _AddEventsPageState extends State<AddEventsPage> {
     if (_formKey.currentState!.validate()) {
       final event = Event(
         title: _titleController.text,
-        description: 'Description',
+        description: _descriptionController.text,
         start: _startDate,
         end: _endDate,
       );

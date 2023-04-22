@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
@@ -16,7 +17,6 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   final _userInfo = Hive.box('userData');
-  
 
   @override
   Widget build(BuildContext context) {
@@ -196,6 +196,7 @@ class LoginPageState extends State<LoginPage> {
           password: password,
         );
         _userInfo.put('uid', userCredential.user!.uid);
+        isAdmin();
         navigateToHomePage();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -213,5 +214,17 @@ class LoginPageState extends State<LoginPage> {
 
   void navigateToRegisterPage() {
     Navigator.pushReplacementNamed(context, route.registerpage);
+  }
+
+  void isAdmin() {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(_userInfo.get('uid'))
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        _userInfo.put('isAdmin', documentSnapshot.get('isAdmin'));
+      }
+    });
   }
 }

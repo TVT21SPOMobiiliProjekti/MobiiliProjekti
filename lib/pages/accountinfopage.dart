@@ -182,7 +182,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            
             padding: const EdgeInsets.all(15),
             child: ListView(
               children: [
@@ -199,11 +198,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                          controller: _nameController,
-                          enabled: _editingName,
-                          decoration: InputDecoration(
-                            hintText: _userInfo.get('Name'),
-                          ),
+                        controller: _nameController,           
+                          hintText: _userInfo.get('Name'),
                         ),
                       ),
                     ),
@@ -245,12 +241,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      '$email',
-                    ),
-                  ],
+                Text(
+                  '$email',
                 ),
                 const Divider(
                   height: 40,
@@ -276,7 +268,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         onFieldSubmitted: (newValue) => _saveAddress(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Address'),
-                          
                         ),
                       ),
                     ),
@@ -299,7 +290,6 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                         onFieldSubmitted: (newValue) => _savePassword(newValue),
                         decoration: InputDecoration(
                           hintText: _userInfo.get('Password'),
-                          
                           suffixIcon: IconButton(
                             icon: Icon(
                               _isObscure

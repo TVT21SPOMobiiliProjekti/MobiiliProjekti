@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utility/router.dart' as route;
+import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? email;
+  final _userInfo = Hive.box('userData');
 
   @override
   void initState() {
@@ -44,11 +46,10 @@ class _HomePageState extends State<HomePage> {
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-                leading: const Icon(Icons.calendar_month_rounded),
-                title: const Text('Calendar'),
-                onTap: () =>
-                   Navigator.pushNamed(context, route.calendarPage),
-                ),
+              leading: const Icon(Icons.calendar_month_rounded),
+              title: const Text('Calendar'),
+              onTap: () => Navigator.pushNamed(context, route.calendarPage),
+            ),
             ListTile(
                 leading: const Icon(Icons.message_rounded),
                 title: const Text('Messages'),
@@ -72,7 +73,29 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
               title: const Text('AdminHomePage'),
-              onTap: () => Navigator.pushNamed(context, route.adminHomePage),
+              onTap: () {
+                if (_userInfo.get('isAdmin')) {
+                  Navigator.pushNamed(context, route.adminHomePage);
+                } else {
+                  showDialog<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        icon: const Icon(Icons.error_outline),
+                        title: const Text('Auth Error'),
+                        content:
+                            const Text('Only an admin can access this page'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
             ),
             ListTile(
               leading: const Icon(Icons.settings_rounded),
@@ -109,8 +132,7 @@ class _HomePageState extends State<HomePage> {
           Align(
             alignment: const Alignment(0, 0.7),
             child: ElevatedButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, route.salaryInfo),
+              onPressed: () => Navigator.pushNamed(context, route.salaryInfo),
               child: const Text('Salary information'),
             ),
           ),
