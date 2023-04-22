@@ -49,6 +49,7 @@ class Styles {
       hintText: 'Enter Name',
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       suffixIcon: IconButton(onPressed: (){}, icon: const Icon(Icons.search_rounded)),
+      hintStyle: const TextStyle(color: Colors.black),
     );
   }
   static searchField({Function(String)? onChange}) {

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../pages/messages.dart/functions.dart';
+import '../pages/messagess.dart/functions.dart';
 import '../utility/router.dart' as route;
 
 class HomePage extends StatefulWidget {

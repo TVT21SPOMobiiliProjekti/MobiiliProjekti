@@ -3,7 +3,7 @@ import 'dialogAnimation.dart';
 import 'styles.dart';
 
 class ChatWidgets {
-  static Widget card({title, time, subtitle, onTap}) {
+  static Widget card({title, subtitle, onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
@@ -25,14 +25,13 @@ class ChatWidgets {
           subtitle: subtitle != null ? Text(subtitle) : null,
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: Text(time),
           ),
         ),
       ),
     );
   }
 
-  static Widget circleProfile({onTap, name}) {
+  static Widget circleProfile({onTap, fname}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: InkWell(
@@ -53,7 +52,7 @@ class ChatWidgets {
                 width: 50,
                 child: Center(
                     child: Text(
-                  name ?? 'John Doe',
+                  fname,
                   style:
                       const TextStyle(height: 1.5, fontSize: 12, color: Colors.white),
                   overflow: TextOverflow.ellipsis,
@@ -64,8 +63,8 @@ class ChatWidgets {
     );
   }
 
-  static Widget messagesCard(i, message, time) {
-    bool check = i % 2 == 0;
+  static Widget messagesCard(bool check, message) {
+
     
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -90,7 +89,7 @@ class ChatWidgets {
               padding: const EdgeInsets.all(10),
               decoration: Styles.messagesCardStyle(check),
               child: Text(
-                '$message\n\n$time',
+                '$message\n\n',
                 style: TextStyle(color: check ? Colors.white : Colors.black),
               ),
             ),
@@ -179,6 +178,7 @@ class ChatWidgets {
       decoration: Styles.messageFieldCardStyle(),
       child: TextField(
         onChanged: onChange,
+        style: const TextStyle(color: Colors.black),
         decoration: Styles.searchTextFieldStyle(),
       ),
     );

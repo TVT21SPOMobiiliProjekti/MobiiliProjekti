@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'widgets.dart';
-import 'messagepage1.dart';
+import 'messagepage.dart';
 
 class AnimatedDialog extends StatefulWidget {
   final double height;
@@ -44,8 +45,8 @@ class _AnimatedDialogState extends State<AnimatedDialog> {
           width: widget.width,
           decoration: BoxDecoration(
               color: widget.width == 0
-                  ? Colors.indigo.withOpacity(0)
-                  : Colors.indigo.shade400,
+                  ? Colors.grey
+                  : Theme.of(context).primaryColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(widget.width == 0 ? 100 : 0),
                 bottomRight: Radius.circular(widget.width == 0 ? 100 : 0),
@@ -68,7 +69,7 @@ class _AnimatedDialogState extends State<AnimatedDialog> {
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: StreamBuilder(
                                 stream:
-                                    firestore.collection('Chats').snapshots(),
+                                    firestore.collection('Users').snapshots(),
                                 builder: (context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
                                   List data = !snapshot.hasData
@@ -77,25 +78,26 @@ class _AnimatedDialogState extends State<AnimatedDialog> {
                                           .where((element) =>
                                               element['email']
                                                   .toString()
-                                                  .contains(search) ||
-                                              element['email']
-                                                  .toString()
-                                                  .contains(search))
+                                                  .contains(search) &&
+                                              element['email'] !=
+                                                  FirebaseAuth
+                                                      .instance
+                                                      .currentUser!
+                                                      .email) // Tarkistus nykyisen käyttäjän sähköpostiosoitetta vastaan
                                           .toList();
                                   return ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, i) {
-                                      Timestamp time = data[i]['date_time'];
+                                      //  Timestamp time = data[i]['date_time'];
                                       return ChatWidgets.card(
                                         title: data[i]['fname'],
-                                        time: DateFormat('EEE hh:mm')
-                                            .format(time.toDate()),
                                         onTap: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) {
-                                                return MessagePage1(
+                                                return MessagePage(
                                                   id: data[i].id.toString(),
+                                                  fname: data[i]['fname'],
                                                 );
                                               },
                                             ),
