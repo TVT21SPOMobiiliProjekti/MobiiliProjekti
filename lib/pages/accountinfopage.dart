@@ -198,7 +198,8 @@ class _AccountInfoPageState extends State<AccountInfoPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: _nameController,           
+                        controller: _nameController,
+                        decoration: InputDecoration(
                           hintText: _userInfo.get('Name'),
                         ),
                       ),
